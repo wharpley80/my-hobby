@@ -15,7 +15,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
- 			<a class="navbar-brand text-muted" href="#">My Hobby</a>
+ 			<a class="navbar-brand text-muted" href="#">My Hobby My Collection</a>
  			<div class="collapse navbar-collapse">
 	 			<ul class="nav navbar-nav navbar-right">
 	 				<li><a href="#">Home</a></li>
@@ -25,7 +25,6 @@
  			</div> 
 		</div>
 	</div>
-
 	<div id="myCarousel" class="carousel slide jumbotron">
   	<div class="container">
 			<ol class="carousel-indicators">
@@ -35,23 +34,21 @@
 			</ol>
 			<div class="carousel-inner">
 				<div class="item active">
-					<h1>My Hobby My Collection</h1>
-		 			<p class="lead">Share you Hobbies and Collections with others! Check out other Hobbies or browse through Collections. 
-		 				Sign up and start you Collection today.
+					<h1>What's your Hobby?</h1>
+		 			<p class="lead">Painting, Sewing, Wood Work, Traveling, Gardening...
 		 			</p>
 		      <p class="btn-group">
-				    <a class="btn btn-success btn-sm" href="#">Download Example</a>
-				    <a class="btn btn-default btn-sm" href="#">Go Home</a>
+				    <a class="btn btn-success btn-sm" data-toggle="modal" href="#signIn">Sign In</a>
+				    <a class="btn btn-default btn-sm" data-toggle="modal"  href="#getStarted">Start Collection</a>
 		      </p>
 				</div>
 				<div class="item">
-					<h1>My Hobby My Collection</h1>
-		 			<p class="lead">Share you Hobbies and Collections with others! Check out other Hobbies or browse through Collections. 
-		 				Sign up and start you Collection today.
+					<h1>What do you Collect?</h1>
+		 			<p class="lead">Action Figures, Memorabilia, Trains, Cars, Jewelry, Comics...
 		 			</p>
 		      <p class="btn-group">
-				    <a class="btn btn-success btn-sm" href="#">Download Example</a>
-				    <a class="btn btn-default btn-sm" href="#">Go Home</a>
+				    <a class="btn btn-success btn-sm" data-toggle="modal" href="#signIn">Sign In</a>
+				    <a class="btn btn-default btn-sm" data-toggle="modal"  href="#getStarted">Start Collections</a>
 		      </p>
 				</div>
 				<div class="item">
@@ -73,7 +70,56 @@
 			<span class="icon-next"></span>
 		</a>
 	</div>
-  
+	<div class="modal fade" id="signIn">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Sign In with your Email and Password</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form">
+					  <div class="form-group">
+					    <label for="email-SI">Email address</label>
+					    <input type="email" class="form-control-sm" id="email-SI" placeholder="Email">
+					  </div>
+					  <div class="form-group">
+					    <label for="password-SI">Password</label>
+					    <input type="password" class="form-control-sm" id="password-SI" placeholder="Password">
+					  </div>
+					  <button type="submit" class="btn btn-primary" data-dismiss="modal">Sign In</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="getStarted">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Get Started with your Email, Username, and Password</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form">
+					  <div class="form-group">
+					    <label for="email">Email address</label>
+					    <input type="email" class="form-control-sm" id="email" placeholder="Email">
+					  </div>
+					  <div class="form-group">
+					    <label for="username">Username</label>
+					    <input type="text" class="form-control-sm" id="usrname" placeholder="Username">
+					  </div>
+					  <div class="form-group">
+					    <label for="password">Password</label>
+					    <input type="password" class="form-control-sm" id="password" placeholder="Password">
+					  </div>
+					  <button type="submit" class="btn btn-primary" data-dismiss="modal">Get Started</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
   <div class="container">
 	 	<div class="row">
 	 		<div class="col-sm-4">
