@@ -19,8 +19,8 @@
  			<div class="collapse navbar-collapse">
 	 			<ul class="nav navbar-nav navbar-right">
 	 				<li><a href="#">Home</a></li>
-	 				<li><a href="#">About</a></li>
-	 				<li><a href="#">Treehouse</a></li>
+	 				<li><a href="#">My Collection</a></li>
+	 				<li><a href="#">Browse</a></li>
 	 			</ul>
  			</div> 
 		</div>
@@ -30,7 +30,6 @@
 			<ol class="carousel-indicators">
 				<li class="active" data-target="#myCarousel" data-slide-to="0"></li>
 				<li data-target="#myCarousel" data-slide-to="1"></li>
-				<li data-target="#myCarousel" data-slide-to="2"></li>
 			</ol>
 			<div class="carousel-inner">
 				<div class="item active">
@@ -51,16 +50,6 @@
 				    <a class="btn btn-default btn-sm" data-toggle="modal"  href="#getStarted">Start Collections</a>
 		      </p>
 				</div>
-				<div class="item">
-					<h1>My Hobby My Collection</h1>
-		 			<p class="lead">Share you Hobbies and Collections with others! Check out other Hobbies or browse through Collections. 
-		 				Sign up and start you Collection today.
-		 			</p>
-		      <p class="btn-group">
-				    <a class="btn btn-success btn-sm" href="#">Download Example</a>
-				    <a class="btn btn-default btn-sm" href="#">Go Home</a>
-		      </p>
-				</div>
 			</div>
     </div>
 		<a class="left carousel-control" href="#myCarousel" data-slide="prev">
@@ -71,7 +60,7 @@
 		</a>
 	</div>
 	<div class="modal fade" id="signIn">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
