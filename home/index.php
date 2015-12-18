@@ -95,7 +95,6 @@ if (isset($_POST['email-SI'])) {
 		}
 			
 		$verified_email = email($email_SI,$password_SI);
-		echo $verified_email;
 		$username_SI = username($email_SI,$password_SI);
 		// Grabs ID from user_pass Table.
 	  function user_id_si($username_SI) {
@@ -138,14 +137,16 @@ require_once(ROOT_PATH . 'inc/header.php');
 					<h1>What's your Hobby?</h1>
 		 			<p class="lead">Painting, Sewing, Wood Work, Traveling, Gardening...
 		 			</p>
-		      <p class="btn-group">
-		      	<?php if (!(isset($_SESSION['login']) && !empty($_SESSION['login']))) { ?>
-				     	  <a class="btn btn-success btn-sm" data-toggle="modal" href="#signIn">Sign In</a>
-				    		<a class="btn btn-info btn-sm" data-toggle="modal"  href="#getStarted">Start Collection</a>
-						<?php }	else { ?>
-								<a class="btn btn-danger btn-sm" href="#">Log Out</a>
-						<?php } ?>
-		      </p>
+		      <?php if (!(isset($_SESSION['login']) && !empty($_SESSION['login']))) { ?>
+		      	<p class="btn-group">
+			     	  <a class="btn btn-success btn-sm" data-toggle="modal" href="#signIn">Sign In</a>
+			    		<a class="btn btn-info btn-sm" data-toggle="modal"  href="#getStarted">Start Collection</a>
+				    </p>
+					<?php }	else { ?>
+						<p class="btn-group">
+							<a class="btn btn-danger btn-sm" href="<?php echo BASE_URL; ?>index.php">Log Out</a>
+						</p>
+					<?php } ?>   
 				</div>
 				<div class="item">
 					<h1>What do you Collect?</h1>
@@ -156,7 +157,7 @@ require_once(ROOT_PATH . 'inc/header.php');
 				     	  <a class="btn btn-success btn-sm" data-toggle="modal" href="#signIn">Sign In</a>
 				    		<a class="btn btn-info btn-sm" data-toggle="modal"  href="#getStarted">Start Collection</a>
 						<?php }	else { ?>
-								<a class="btn btn-danger btn-sm" href="#">Log Out</a>
+								<a class="btn btn-danger btn-sm" href="<?php echo BASE_URL; ?>index.php">Log Out</a>
 						<?php } ?>
 		      </p>
 				</div>
