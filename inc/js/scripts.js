@@ -24,7 +24,7 @@ $(function() {
           url: "../valid_password.php",
           type: "POST",
           data: {
-            username: function() {
+            'email-SI': function() {
               return $("#email-SI").val();
             }
           }
@@ -46,7 +46,7 @@ $(function() {
       $(element).tooltipster('update', $(error).text());
       $(element).tooltipster('show');
       $('#signIn').on('hidden.bs.modal', function () {
-      	$(element).tooltipster('hide');
+        $(element).tooltipster('hide');
       });
     },
     success: function (label, element) {
@@ -75,8 +75,8 @@ $(function() {
         required: true,
         minlength: 6,
         remote: {
-        	url: "../check_username.php",
-        	type: "POST"
+          url: "../check_username.php",
+          type: "POST"
         }
       },
       password: {

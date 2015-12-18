@@ -2,18 +2,15 @@
 session_start();
 require_once('../inc/config.php');
 require_once(ROOT_PATH . 'inc/database.php');
-
 // Creates a new username.
 if (isset($_POST['signup'])) {
   $username = trim($_POST['username']);
   $email = trim($_POST['email']);
   $password = trim($_POST['password']);
   $password = hash("sha256", $password);
-
   if (empty($username) || empty($email) || empty($password)) {
   	echo "Please complete all fields.";
 	}
-
   // Validates Email
 	foreach($_POST as $value) {
 		if(stripos($value,'Content-Type:') !== FALSE) {
@@ -21,7 +18,6 @@ if (isset($_POST['signup'])) {
 			exit;
 		}
 	}
-
 	try {
 	  $sql = $db->prepare('INSERT IGNORE INTO user_pass (username,email,password) VALUES (?,?,?)');
 	  $sql->bindParam(1,$username);
@@ -32,7 +28,6 @@ if (isset($_POST['signup'])) {
 	  echo 'Data could not be submitted to the database.';
 	  exit;
 	}
-
 	// Grabs ID from user_pass Table.
   function user_id($username) {
     require(ROOT_PATH . 'inc/database.php');
@@ -50,28 +45,23 @@ if (isset($_POST['signup'])) {
       exit;
     }
   } 
-
 	$userid = user_id($username);
 	$_SESSION['login'] = "1";
 	$_SESSION['userid'] = $userid;
   header ("Location: " . BASE_URL . "collection/");
   exit();
 }
-
 // Signs In Existing User
 if (isset($_POST['email-SI'])) {
 	$email_SI = trim($_POST['email-SI']);
 	$password_SI = trim($_POST['password-SI']);
 	$password_SI = hash("sha256", $password_SI);
-
 	if (empty($email_SI) || empty($password_SI)) {
 		echo "Please Complete All Fields";
 	} else {
-
 	  // Grabs username from user_pass Table.
 		function username($email_SI,$password_SI) {
 	    require(ROOT_PATH . 'inc/database.php');
-
 			try {
 				$user = $db->prepare('SELECT username FROM user_pass WHERE email = ? AND password = ?');
 			  $user->bindParam(1,$email_SI);
@@ -86,11 +76,9 @@ if (isset($_POST['email-SI'])) {
 			  exit;
 			}
 		}
-
 		// Grabs email from user_pass Table.
 		function email($email_SI,$password_SI) {
 	    require(ROOT_PATH . 'inc/database.php');
-
 			try {
 				$email = $db->prepare('SELECT email FROM user_pass WHERE email = ? AND password = ?');
 			  $email->bindParam(1,$email_SI);
@@ -108,9 +96,7 @@ if (isset($_POST['email-SI'])) {
 			
 		$verified_email = email($email_SI,$password_SI);
 		echo $verified_email;
-
 		$username_SI = username($email_SI,$password_SI);
-
 		// Grabs ID from user_pass Table.
 	  function user_id_si($username_SI) {
 	    require(ROOT_PATH . 'inc/database.php');
@@ -128,9 +114,7 @@ if (isset($_POST['email-SI'])) {
 	      exit;
 	    }
 	  } 
-
 	  $user_id_si = user_id_si($username_SI);
-
 		if(email($email_SI,$password_SI) == $email_SI) {
 			$_SESSION['login'] = "1";
 			$_SESSION['userid'] = $user_id_si;
@@ -141,7 +125,6 @@ if (isset($_POST['email-SI'])) {
 		}
 	} 
 }
-
 require_once(ROOT_PATH . 'inc/header.php');
 ?>
 	<div id="myCarousel" class="carousel slide jumbotron">
