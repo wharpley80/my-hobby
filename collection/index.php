@@ -35,9 +35,10 @@ $your_name = yourname($user_id);
 	  <div class="panel-body">
 	  </div>
 	</div>
-  <form action="index.php" method="post" enctype="multipart/form-data">
-    Select image to upload:
+  <form class="form-group" action="index.php" method="post" enctype="multipart/form-data">
+    <label for="image">Select image to upload:</label>
     <input type="file" name="image" id="image">
+    <input type="text" name="image-name" placeholder="Name Image">
     <input type="submit" value="Upload" name="sumit">
   </form>
 </div>
@@ -48,15 +49,17 @@ if  (isset($_POST['sumit'])) {
 		echo "Please select an image.";
 	} else {
 		$image = addslashes($_FILES['image']['tmp_name']);
-		$image_name = addslashes($_FILES['image']['name']);
+		$name = addslashes($_FILES['image']['name']);
 		$image = file_get_contents($image);
 	  $image = base64_encode($image);
+	  $image_name = trim($_POST['image-name']);
 
 		try {
-		  $img = $db->prepare('INSERT INTO image_collection (name,image,name_id) VALUES (?,?,?)');
-		  $img->bindParam(1,$image_name);
+		  $img = $db->prepare('INSERT INTO image_collection (name,image,name_id,image_name) VALUES (?,?,?,?)');
+		  $img->bindParam(1,$name);
 		  $img->bindParam(2,$image);
 		  $img->bindParam(3,$user_id);
+		  $img->bindParam(4,$image_name);
 		  $img->execute();
 		  echo "<br />Image Uploaded.";
 		} catch (Exception $e) {
@@ -76,6 +79,7 @@ try {
   $i = 0;
   foreach ($get_img as $get) {
     echo '<div class="col-xs-6 col-md-3">' . 
+    		 '<h3>' . htmlspecialchars($get['image_name']) . '</h3>' .
     		 '<a href="#" class="thumbnail">' .
     		 '<img height="300" width="300" src="data:image;base64,'.$get['image'].' ">' ; ?>
     		 </a>
@@ -88,36 +92,9 @@ try {
   echo "Data was not retrieved from the database successfully.";
   exit;
 }
-
 ?>
 	</div>
 </div>
-<!--
-<div class="container">
-	<div class="row">
-	  <div class="col-xs-6 col-md-3">
-	    <a href="#" class="thumbnail">
-	      <img src="../img/DSC_0501 (1).JPG">
-	    </a>
-	  </div>
-	  <div class="col-xs-6 col-md-3">
-	    <a href="#" class="thumbnail">
-	      <img src="../img/DSC_0075.JPG">
-	    </a>
-	  </div>
-	  <div class="col-xs-6 col-md-3">
-	    <a href="#" class="thumbnail">
-	      <img src="../img/DSC_0228.JPG">
-	    </a>
-	  </div>
-	  <div class="col-xs-6 col-md-3">
-	    <a href="#" class="thumbnail">
-	      <img src="../img/DSC_0501.JPG">
-	    </a>
-	  </div>
-	</div>
-</div>
--->
 <?php
 require_once(ROOT_PATH . 'inc/footer.php');
 ?>
