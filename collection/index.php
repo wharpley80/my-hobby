@@ -73,13 +73,17 @@ try {
   $get_img = $db->prepare('SELECT * FROM image_collection WHERE name_id = ?');
   $get_img->bindValue(1,$user_id);
   $get_img->execute();
+  $i = 0;
   foreach ($get_img as $get) {
     echo '<div class="col-xs-6 col-md-3">' . 
     		 '<a href="#" class="thumbnail">' .
-    		 '<img height="300" width="300" src="data:image;base64,'.$get['image'].' ">' .
-    		 '</a>' .
-    		 '</div>';
-  }
+    		 '<img height="300" width="300" src="data:image;base64,'.$get['image'].' ">' ; ?>
+    		 </a>
+    		</div>
+      <?php
+			$i++;
+			if ($i%4 == 0) echo '</div><div class="row">';
+	} 
 } catch (Exception $e) {
   echo "Data was not retrieved from the database successfully.";
   exit;
