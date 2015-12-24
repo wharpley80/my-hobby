@@ -180,7 +180,7 @@ require_once(ROOT_PATH . 'inc/header.php');
 				<div class="modal-body">
 					<form class="signin-form" method="POST">
 					  <div class="form-group">
-					    <input type="email" class="form-control-sm" name="email-SI" id="email-SI" placeholder="Email">
+					    <input type="email" class="form-control-sm" name="email-SI" id="email-SI" placeholder="Email" autofocus="autofocus">
 					  </div>
 					  <div class="form-group">
 					    <input type="password" class="form-control-sm" name="password-SI" id="password-SI" placeholder="Password">
@@ -201,7 +201,7 @@ require_once(ROOT_PATH . 'inc/header.php');
 				<div class="modal-body">
 					<form class="signup-form" method="POST">
 					  <div class="form-group">
-					    <input type="email" class="form-control-sm" name="email" id="email" placeholder="Email">
+					    <input type="email" class="form-control-sm" name="email" id="email" placeholder="Email" autofocus="autofocus">
 					  </div>
 					  <div class="form-group">
 					    <input type="text" class="form-control-sm" name="username" id="username" placeholder="Username">

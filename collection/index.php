@@ -48,12 +48,13 @@ if  (isset($_POST['sumit'])) {
 	if (getimagesize($_FILES['image']['tmp_name']) == FALSE) {
 		echo "Please select an image.";
 	} else {
+		// addslashes prevents SQL Injection
 		$image = addslashes($_FILES['image']['tmp_name']);
 		$name = addslashes($_FILES['image']['name']);
 		$image = file_get_contents($image);
 	  $image = base64_encode($image);
 	  $image_name = trim($_POST['image-name']);
-
+    
 		try {
 		  $img = $db->prepare('INSERT INTO image_collection (name,image,name_id,image_name) VALUES (?,?,?,?)');
 		  $img->bindParam(1,$name);
@@ -77,11 +78,13 @@ try {
   $get_img->bindValue(1,$user_id);
   $get_img->execute();
   $i = 0;
+  // Displays Images 
+  // Loops 4 Images per Row
   foreach ($get_img as $get) {
     echo '<div class="col-xs-6 col-md-3">' . 
     		 '<h3>' . htmlspecialchars($get['image_name']) . '</h3>' .
     		 '<a href="#" class="thumbnail">' .
-    		 '<img height="300" width="300" src="data:image;base64,'.$get['image'].' ">' ; ?>
+    		 '<img src="data:image;base64,'.$get['image'].' ">' ;?>
     		 </a>
     		</div>
       <?php
