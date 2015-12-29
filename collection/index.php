@@ -26,23 +26,28 @@ function yourname($user_id) {
 
 $your_name = yourname($user_id);
 
-?>
-<div class="container">
-	<div class="panel panel-default">
-	  <div class="panel-heading">
-	    <h3 class="panel-title"><?php echo  htmlspecialchars($your_name); ?></h3>
-	  </div>
-	  <div class="panel-body">
-	  </div>
-	</div>
-  <form class="form-group" action="index.php" method="post" enctype="multipart/form-data">
-    <label for="image">Select image to upload:</label>
-    <input type="file" name="image" id="image">
-    <input type="text" name="image-name" placeholder="Name Image">
-    <input type="submit" value="Upload" name="sumit">
-  </form>
-</div>
-<?php
+// Adds a New Gallery
+if (isset($_POST['submit'])) {
+  $new_gallery = trim($_POST['new-gallery']);
+  $gallery_type = $_POST['gallery-type'];
+  
+  if (!empty($new_gallery)) { 
+    try {
+      $list = $db->prepare('INSERT INTO image_collection (name_id,gallery,gallery_type) VALUES(?,?,?)');
+      $list->bindParam(1,$user_id);
+      $list->bindParam(2,$new_gallery);
+      $list->bindParam(3,$gallery_type);
+      $list->execute();
+    } catch (Exception $e) {
+      echo 'Data was not submitted to the database successfully.';
+      exit;
+    }
+  } 
+}
+
+if (isset($_POST['gallery'])) { 
+	$gallery_name = $_POST['gallery'];
+}
 
 if  (isset($_POST['sumit'])) {
 	if (getimagesize($_FILES['image']['tmp_name']) == FALSE) {
@@ -54,13 +59,16 @@ if  (isset($_POST['sumit'])) {
 		$image = file_get_contents($image);
 	  $image = base64_encode($image);
 	  $image_name = trim($_POST['image-name']);
+	  $description = trim($_POST['description']);
     
 		try {
-		  $img = $db->prepare('INSERT INTO image_collection (name,image,name_id,image_name) VALUES (?,?,?,?)');
+		  $img = $db->prepare('INSERT INTO image_collection (name,image,name_id,image_name,gallery,description) VALUES (?,?,?,?,?,?)');
 		  $img->bindParam(1,$name);
 		  $img->bindParam(2,$image);
 		  $img->bindParam(3,$user_id);
 		  $img->bindParam(4,$image_name);
+		  $img->bindParam(5,$gallery_name);
+		  $img->bindParam(6,$description);
 		  $img->execute();
 		  echo "<br />Image Uploaded.";
 		} catch (Exception $e) {
@@ -69,23 +77,128 @@ if  (isset($_POST['sumit'])) {
 		}
 	}
 }
+
+if (isset($_REQUEST['action'])) {
+	$action = $_REQUEST['action'];
+	
+	if ($action == 'new-select') {
+		$prev = $_REQUEST['new-gallery'];
+	
+	} elseif ($action == 'old-select') {
+		$prev = $_REQUEST['gallery'];
+	}
+	
+} else {
+$prev = "My Gallery";	
+}
 ?>
+<div class="container">
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	  	<?php echo  '<div><span data-id=' . $user_id . '>' . 
+	  				'<h2 class="panel-title" id="name">' . htmlspecialchars($your_name) . '</span>' . ' ' . '</h2>' . '</div>';
+	  	?>
+		</div>
+	  <div class="panel-body">
+	  	<form class="form-inline" id="gallery-form" method="POST">
+	  		<div class="form-group">
+		  		<label for="new-gallery">Start New Hobby or Collection Gallery:</label>
+		  		<input type="hidden" name="action" value="new-select">
+		  		<input type="text" name="new-gallery" class="new-gallery" placeholder="Gallery Name">
+		  		<label for="gallery-type">Select Type of Gallery:</label>
+		  		<select class="form-control" name="gallery-type" class="gallery-type">
+		  			<option selected disabled>Choose</option>
+					  <option>Antiques</option>
+					  <option>Arts</option>
+					  <option>Automotive</option>
+					  <option>Cards</option>
+					  <option>Coins</option>
+					  <option>Comics</option>
+					  <option>Crafts</option>
+					  <option>Destinations</option>
+					  <option>Dolls</option>
+					  <option>Figurines</option>
+					  <option>Guns/Knives</option>
+					  <option>Jewelry</option>
+					  <option>Legos</option>
+					  <option>Metalry</option>
+					  <option>Needlecraft</option>
+					  <option>Photography</option>
+					  <option>Sports</option>
+					  <option>Toys</option>
+					  <option>Wood Work</option>
+					  <option>Other</option>
+        	</select>
+	  		</div>
+	  		<input type="submit" class="btn btn-primary btn-md" name="submit" value="Add">
+	  	</form>
+	  </div>
+	</div>
+	<?php echo  '<div class="container"><span data-gal=' . json_encode($prev) . '>' .
+							'<h1 class="gallery-name">' . htmlspecialchars($prev) . '</span>' . ' ' . '</h1>' . '</div>';
+	?>
+  <form class="form-inline" id="upload-form" method="POST" enctype="multipart/form-data">
+  	<div>
+	  	<label for="gallery">Select Gallery</label>
+	    <?php
+	    $cols = $db->prepare('SELECT DISTINCT(gallery) FROM image_collection WHERE name_id = ? ORDER BY gallery ASC'); 
+	    $cols->bindParam(1,$user_id);
+	    $cols->execute();?>
+	    <select class="form-control" id="return" name="gallery">
+	      <option selected disabled>Select</option>
+	      <?php foreach ($cols as $col) { ?>
+	              <option value="<?php echo htmlspecialchars($col['gallery']); ?>" 
+	              <?php if ( $col['gallery'] == "$prev") echo ' selected="selected"'; ?>>
+	                <?php echo htmlspecialchars($col['gallery']); ?></option>
+	      <?php } ?>
+	    </select>
+	    <input type="submit" class="btn btn-primary btn-md" name="submit" value="Select">
+  	</div>
+  	<div>
+  		<a class="btn btn-default btn-md pull-right" href="#upload" data-toggle="modal">Upload Photo<span class="glyphicon glyphicon-camera"></span></a>
+	  	<div class="modal fade modal" id="upload">
+				<div class="modal-dialog modal-md">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					  	<h4 class="modal-title">Select image to upload</h4>
+						</div>
+						<div class="modal-body">
+					    <input type="file" name="image" class="image">
+					    <input type="text" name="image-name" class="image-name" placeholder="Name Image">
+					    <input type="hidden" name="action" value="old-select">
+					    <div class="form-group">
+					    	<textarea name="description" placeholder="Enter Description"></textarea>
+					  	</div>
+					    <input type="submit" class="btn btn-primary btn-md" name="sumit" value="Upload">
+					  </div>
+					</div>
+				</div>
+			</div>
+  	</div>
+  </form>
+</div>
+
 <div class="container">
 	<div class="row">
 <?php
 try {
-  $get_img = $db->prepare('SELECT * FROM image_collection WHERE name_id = ?');
+  $get_img = $db->prepare('SELECT * FROM image_collection WHERE name_id = ? AND gallery = ?');
   $get_img->bindValue(1,$user_id);
+  $get_img->bindValue(2,$prev);
   $get_img->execute();
   $i = 0;
   // Displays Images 
   // Loops 4 Images per Row
   foreach ($get_img as $get) {
-    echo '<div class="col-xs-6 col-md-3">' . 
-    		 '<h3>' . htmlspecialchars($get['image_name']) . '</h3>' .
+    echo '<div class="col-xs-6 col-md-3"><span data-id=' . $get['id'] . '>' . 
+    		 '<h3>' . htmlspecialchars($get['image_name']) .  '</span>' . '</h3>' .
     		 '<a href="#" class="thumbnail">' .
-    		 '<img src="data:image;base64,'.$get['image'].' ">' ;?>
+    		 '<img src="data:image;base64,'.$get['image'].' ">' .
+    		 '<p>' . htmlspecialchars($get['description']) . '</p>' .
+    		 '<a href="" class="delete-img pull-right">Delete</a>' ;?>
     		 </a>
+    		 
     		</div>
       <?php
 			$i++;
@@ -97,6 +210,7 @@ try {
 }
 ?>
 	</div>
+	<a class="btn btn-default btn-md pull-right" id="delete-gallery" href="">Delete Gallery<span class="glyphicon glyphicon-trash"></span></a>
 </div>
 <?php
 require_once(ROOT_PATH . 'inc/footer.php');

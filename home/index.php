@@ -135,7 +135,7 @@ require_once(ROOT_PATH . 'inc/header.php');
 			<div class="carousel-inner">
 				<div class="item active">
 					<h1>What's your Hobby?</h1>
-		 			<p class="lead">Painting, Sewing, Wood Work, Traveling, Gardening...
+		 			<p class="lead">Painting, Sewing, Wood Work, Traveling, Photography...
 		 			</p>
 		      <?php if (!(isset($_SESSION['login']) && !empty($_SESSION['login']))) { ?>
 		      	<p class="btn-group">
@@ -150,7 +150,7 @@ require_once(ROOT_PATH . 'inc/header.php');
 				</div>
 				<div class="item">
 					<h1>What do you Collect?</h1>
-		 			<p class="lead">Action Figures, Memorabilia, Trains, Cars, Jewelry, Comics...
+		 			<p class="lead">Antiques, Coins, Comics, Figurines, Memorabilia, Toys...
 		 			</p>
 		      <p class="btn-group">
 		      	<?php if (!(isset($_SESSION['login']) && !empty($_SESSION['login']))) { ?>
