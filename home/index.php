@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+$thisPage = "home";
 require_once('../inc/config.php');
 require_once(ROOT_PATH . 'inc/database.php');
 // Creates a new username.
@@ -144,7 +146,7 @@ require_once(ROOT_PATH . 'inc/header.php');
 				    </p>
 					<?php }	else { ?>
 						<p class="btn-group">
-							<a class="btn btn-danger btn-sm" href="<?php echo BASE_URL; ?>index.php">Log Out</a>
+							<a class="btn btn-danger btn-sm" href="<?php echo BASE_URL; ?>index.php">Log Out &amp Save</a>
 						</p>
 					<?php } ?>   
 				</div>
@@ -227,13 +229,15 @@ require_once(ROOT_PATH . 'inc/header.php');
 	    <div class="col-sm-4">
 	    	<b class="glyphicon glyphicon-camera"></b>
 	    	<h2>Upload Photos</h2>
-			 	<p>Take a picture of each item in your Collection. Then Upload the Photo and give it a name and brief description.
+			 	<p>
+			 		Take a picture of each item in your Collection. Then Upload the Photo and give it a name and brief description.
 			 	</p>
 	 		</div>
 	 		<div class="col-sm-4">
 	 			<b class="glyphicon glyphicon-search"></b>
 	 			<h2>Search Collections</h2>
-			 	<p>Browse other Collections and admire somebody else's Hobby.  
+			 	<p>
+			 		Browse other Collections and admire somebody else's Hobby.  
 			 	</p>
 	 		</div>
 	 	</div>

@@ -2,7 +2,7 @@
 session_start();
 
 $user_id = ($_SESSION['userid']);
-
+$thisPage = "collection";
 require_once('../inc/config.php');
 require_once(ROOT_PATH . 'inc/header.php');
 require_once(ROOT_PATH . 'inc/database.php');
@@ -70,9 +70,9 @@ if  (isset($_POST['sumit'])) {
 		  $img->bindParam(5,$gallery_name);
 		  $img->bindParam(6,$description);
 		  $img->execute();
-		  echo "<br />Image Uploaded.";
+		  echo '<p class="alert alert-success" role="alert">Image Uploaded Successfully!</p>';
 		} catch (Exception $e) {
-		  echo "<br />Image Not Uploaded.";
+      echo '<p class="alert alert-danger" role="alert">Image Not Uploaded!</p>';
 		  exit;
 		}
 	}
@@ -94,10 +94,12 @@ $prev = "My Gallery";
 ?>
 <div class="container">
 	<div class="panel panel-default">
-	  <div class="panel-heading">
+	  <div class="panel-heading" id="head">
 	  	<?php echo  '<div><span data-id=' . $user_id . '>' . 
-	  				'<h2 class="panel-title" id="name">' . htmlspecialchars($your_name) . '</span>' . ' ' . '</h2>' . '</div>';
-	  	?>
+	  				'<h2 class="panel-title" id="name">' . htmlspecialchars($your_name) . '</span>' . ' ' . '</h2>' .
+				    '<a class="btn btn-danger btn-sm pull-right" id="logout" href="' . BASE_URL . 'index.php">Log Out &amp Save</a>' .
+            '</div>'; 
+      ?>
 		</div>
 	  <div class="panel-body">
 	  	<form class="form-inline" id="gallery-form" method="POST">
@@ -171,6 +173,11 @@ $prev = "My Gallery";
 					    	<textarea name="description" placeholder="Enter Description"></textarea>
 					  	</div>
 					    <input type="submit" class="btn btn-primary btn-md" name="sumit" value="Upload">
+							<div class="progress">
+							  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+							    <span class="sr-only">0% Complete</span>
+							  </div>
+							</div>
 					  </div>
 					</div>
 				</div>
@@ -191,18 +198,20 @@ try {
   // Displays Images 
   // Loops 4 Images per Row
   foreach ($get_img as $get) {
-    echo '<div class="col-xs-6 col-md-3"><span data-id=' . $get['id'] . '>' . 
-    		 '<h3>' . htmlspecialchars($get['image_name']) .  '</span>' . '</h3>' .
-    		 '<a href="#" class="thumbnail">' .
-    		 '<img src="data:image;base64,'.$get['image'].' ">' .
-    		 '<p>' . htmlspecialchars($get['description']) . '</p>' .
-    		 '<a href="" class="delete-img pull-right">Delete</a>' ;?>
-    		 </a>
-    		 
-    		</div>
-      <?php
-			$i++;
-			if ($i%4 == 0) echo '</div><div class="row">';
+  	if (!empty($get['image'])) {
+	    echo '<div class="col-xs-6 col-md-3"><span data-id=' . $get['id'] . '>' . 
+	    		 '<h3>' . htmlspecialchars($get['image_name']) .  '</span>' . '</h3>' .
+	    		 '<a href="#" class="thumbnail">' .
+	    		 '<img class="show" src="data:image;base64,'.$get['image'].' ">' .
+	    		 '<p>' . htmlspecialchars($get['description']) . '</p>' .
+	    		 '<a href="" class="delete-img pull-right">Delete</a>' ;?>
+	    		 </a>
+	    		 
+	    		</div>
+	      <?php
+				$i++;
+				if ($i%4 == 0) echo '</div><div class="row">';
+		}
 	} 
 } catch (Exception $e) {
   echo "Data was not retrieved from the database successfully.";

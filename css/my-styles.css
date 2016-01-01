@@ -65,7 +65,24 @@ h1 {
 ****************************/
 
 .panel {
-	margin: 30px 0 0 0;
+	margin-top: 40px;
+	border: #c8c8c8;
+}
+
+#head {
+	background: #262626;
+}
+
+.panel-title {
+	display: inline;
+}
+
+#name {
+	color: #777;
+}
+
+#logout {
+	margin: -5px 0 10px 0;
 }
 
 /***************************
@@ -109,9 +126,8 @@ span.glyphicon {
 .btn-default {
   background-color: rgba(0,0,0,0);
   border-width: 2px;
-  color: #fff;
+  color: #262626;
   border-color: inherit;
-
   margin: 5px;
   padding: 12px 15px;
 }

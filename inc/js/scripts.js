@@ -198,6 +198,23 @@ $(function() {
     }
   });
 
+  // Progress Bar
+  $(function() {
+    $('#upload-form').ajaxForm({
+      beforeSend:function(){
+        $(".progress").show();
+      },
+      uploadProgress:function(event,position,total,percentComplete){
+        $('.progress-bar').width(percentComplete+ '%');
+        $('.sr-only').html(percentComplete+ '%');
+      },
+      success:function(){
+        window.location.href = '../collection/';
+      }
+    });
+    $(".progress").hide();
+  });
+
   // Removes a Img from Gallery
   $('a.delete-img').on('click', function( event ) {
     event.preventDefault();

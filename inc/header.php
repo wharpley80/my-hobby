@@ -20,24 +20,29 @@
       </button>
  			<a class="navbar-brand text-muted" href="#">My Hobby My Collection</a>
  			<div class="collapse navbar-collapse">
-	 			<ul class="nav navbar-nav navbar-right">
+	 			<ul class="nav nav-pills navbar-nav navbar-right">
 	 				<?php if (!(isset($_SESSION['login']) && !empty($_SESSION['login']))) { ?>
-		 				<li>
-		 					<a href="<?php echo BASE_URL; ?>home/">Home</a>
-		 			  </li>
-		 				<li>
-		 					<a href="<?php echo BASE_URL; ?>browse/">Browse</a>
-		 				</li>
+		 			  <li <?php if ($thisPage=="home") 
+							echo " class=\"active\""; ?> >
+							<a href="<?php echo BASE_URL; ?>home/">Home</a>
+						</li>
+						<li <?php if ($thisPage=="browse") 
+							echo " class=\"active\""; ?> >
+							<a href="<?php echo BASE_URL; ?>browse/">Browse</a>
+						</li>
 					<?php }	else { ?>
-			 			<li>
-		 					<a href="<?php echo BASE_URL; ?>home/">Home</a>
-		 			  </li>
-		 				<li>
-		 					<a href="<?php echo BASE_URL; ?>collection/">My Collection</a>
-		 				</li>
-		 				<li>
-		 					<a href="<?php echo BASE_URL; ?>browse/">Browse</a>
-		 				</li>
+		 			  <li <?php if ($thisPage=="home") 
+							echo " class=\"active\""; ?> >
+							<a href="<?php echo BASE_URL; ?>home/">Home</a>
+						</li>
+						<li <?php if ($thisPage=="collection") 
+							echo " class=\"active\""; ?> >
+							<a href="<?php echo BASE_URL; ?>collection/">My Collection</a>
+						</li>
+						<li <?php if ($thisPage=="browse") 
+							echo " class=\"active\""; ?> >
+							<a href="<?php echo BASE_URL; ?>browse/">Browse</a>
+						</li>
 	 				<?php } ?>  
 	 			</ul>
  			</div> 
