@@ -45,10 +45,29 @@ if (isset($_POST['submit'])) {
   } 
 }
 
+// Sets Gallery Name to variable
 if (isset($_POST['gallery'])) { 
 	$gallery_name = $_POST['gallery'];
 }
 
+// Renames a Gallery
+if (isset($_POST['rename'])) {
+  $rename = trim($_POST['rename']);
+  
+  if (!empty($rename)) { 
+		try {
+			$change = $db->prepare('UPDATE image_collection SET gallery = ? WHERE name_id = ?');
+			$change->bindParam(1,$rename);
+			$change->bindParam(2,$user_id);
+			$change->execute();
+		} catch (Exception $e) {
+			echo 'Data was not submitted to the database successfully.';
+			exit;
+		}
+  } 
+}
+
+// Uploads Images to Database
 if  (isset($_POST['sumit'])) {
 	if (getimagesize($_FILES['image']['tmp_name']) == FALSE) {
 		echo "Please select an image.";
@@ -83,8 +102,8 @@ if (isset($_REQUEST['action'])) {
 	
 	if ($action == 'new-select') {
 		$prev = $_REQUEST['new-gallery'];
-	
-	} elseif ($action == 'old-select') {
+
+  } elseif ($action == 'old-select') {
 		$prev = $_REQUEST['gallery'];
 	}
 	
@@ -154,6 +173,7 @@ $prev = "My Gallery";
 	                <?php echo htmlspecialchars($col['gallery']); ?></option>
 	      <?php } ?>
 	    </select>
+	    <input type="hidden" name="action" value="now-select">
 	    <input type="submit" class="btn btn-primary btn-md" name="submit" value="Select">
   	</div>
   	<div>
@@ -168,16 +188,18 @@ $prev = "My Gallery";
 						<div class="modal-body">
 					    <input type="file" name="image" class="image">
 					    <input type="text" name="image-name" class="image-name" placeholder="Name Image">
-					    <input type="hidden" name="action" value="old-select">
 					    <div class="form-group">
 					    	<textarea name="description" placeholder="Enter Description"></textarea>
 					  	</div>
+					  	<input type="hidden" name="action" value="old-select">
 					    <input type="submit" class="btn btn-primary btn-md" name="sumit" value="Upload">
+					    <!--
 							<div class="progress">
 							  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
 							    <span class="sr-only">0% Complete</span>
 							  </div>
 							</div>
+							-->
 					  </div>
 					</div>
 				</div>
@@ -185,7 +207,6 @@ $prev = "My Gallery";
   	</div>
   </form>
 </div>
-
 <div class="container">
 	<div class="row">
 <?php
@@ -220,6 +241,7 @@ try {
 ?>
 	</div>
 	<a class="btn btn-default btn-md pull-right" id="delete-gallery" href="">Delete Gallery<span class="glyphicon glyphicon-trash"></span></a>
+  <a class="btn btn-default btn-md pull-right" href="#edit-galleryname">Rename Gallery<span class="glyphicon glyphicon-pencil"></span></a>
 </div>
 <?php
 require_once(ROOT_PATH . 'inc/footer.php');

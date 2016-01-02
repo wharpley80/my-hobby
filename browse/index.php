@@ -13,10 +13,7 @@ if (isset($_POST['search'])) {
 if (isset($_REQUEST['action'])) {
 	$action = $_REQUEST['action'];
 	
-	if ($action == 'new-select') {
-		$prev = $_REQUEST['new-gallery'];
-	
-	} elseif ($action == 'old-select') {
+	if ($action == 'old-select') {
 		$prev = $_REQUEST['gallery'];
 	}
 	
@@ -39,11 +36,13 @@ $prev = "Select";
 		    $cols->execute();?>
 		    <select class="form-control" id="return" name="gallery">
 		      <option selected disabled>Select</option>
-		      <?php foreach ($cols as $col) { ?>
+		      <?php foreach ($cols as $col) { 
+		      				if (trim($col['gallery']) != "") { ?>
 		              <option value="<?php echo htmlspecialchars($col['gallery']); ?>" 
 		              <?php if ( $col['gallery'] == "$prev") echo ' selected="selected"'; ?>>
 		                <?php echo htmlspecialchars($col['gallery']); ?></option>
-		      <?php } ?>
+		      <?php } 
+		    } ?>
 		    </select>
 		    <input type="hidden" name="action" value="old-select">
 		    <input type="submit" class="btn btn-primary btn-md" name="submit" value="Select">
@@ -57,11 +56,14 @@ $prev = "Select";
 	</div>
 </div>
 <div class="container">
+	<?php echo  '<div class="container"><span data-gal=' . json_encode($prev) . '>' .
+							'<h1 class="gallery-name">' . htmlspecialchars($prev) . '</span>' . ' ' . '</h1>' . '</div>';
+	?>
 	<div class="row">
 <?php
 // Grabs selected Gallery to Browse
 try {
-  $get_img = $db->prepare('SELECT * FROM image_collection WHERE gallery = ?');
+  $get_img = $db->prepare('SELECT * FROM image_collection WHERE gallery = ? AND image_name IS NOT NULL');
   $get_img->bindValue(1,$prev);
   $get_img->execute();
   $i = 0;

@@ -9,9 +9,8 @@ if (isset($_POST['new-gallery'])) {
   $gallery_name = trim($_POST['new-gallery']);
 
 	try {
-		$check_gallery = $db->prepare('SELECT * FROM image_collection WHERE name_id = ? AND gallery = ?');
-		$check_gallery->bindParam(1,$user_id);
-		$check_gallery->bindParam(2,$gallery_name);
+		$check_gallery = $db->prepare('SELECT * FROM image_collection WHERE gallery = ?');
+		$check_gallery->bindParam(1,$gallery_name);
 		$check_gallery->execute();
 	} catch (Exception $e) {
 		echo 'Data could not be retrieved from the database.';

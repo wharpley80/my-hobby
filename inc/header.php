@@ -1,5 +1,4 @@
- <?php session_start(); ?>
- <!DOCTYPE html>
+<!DOCTYPE html>
  <html>
  <head>
  	<title>MyHobbyMyCollection</title>

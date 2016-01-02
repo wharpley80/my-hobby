@@ -135,7 +135,7 @@ $(function() {
     messages: {
       'new-gallery': {
         required: "Please Name New Gallery",
-        remote: "You Already Have A Gallery With This Name"
+        remote: "Choose A Unique Gallery Name"
       },
       'gallery-type': {
         required: "Please Select A Gallery Type"
@@ -199,6 +199,7 @@ $(function() {
   });
 
   // Progress Bar
+  /*
   $(function() {
     $('#upload-form').ajaxForm({
       beforeSend:function(){
@@ -214,6 +215,7 @@ $(function() {
     });
     $(".progress").hide();
   });
+*/
 
   // Removes a Img from Gallery
   $('a.delete-img').on('click', function( event ) {
