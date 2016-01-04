@@ -216,9 +216,57 @@ $(function() {
     $(".progress").hide();
   });
 */
+  // Enlarges Image in Modal Window
+  $('.show-img').on('click', function(event) {
+    event.preventDefault();
+    
+    var parent = $(this).closest('div');
+    var id = parent.find('span').data('id');
+    
+    $('#imagepreview').attr('src', $('#imageresource' + id).attr('src'));
+    $('#imagemodal').modal('show'); 
+  });
+
+  //Likes Image
+  $('.like-img').on('click', function(event) {
+    event.preventDefault();
+  
+    var id = $(this).find('span').data('id');
+
+    $.ajax({
+      type: "POST",
+      url: "../like_image.php",
+      data: {
+        id: id
+      },
+      success: function() {
+        location.reload();
+      }
+    });
+  });
+
+  //Rotates Image
+  $('.rotate').on('click', function(event) {
+    event.preventDefault();
+  
+    var parent = $('.show-img').closest('div');
+    var id = parent.find('span').data('id');
+    alert(id);
+
+    $.ajax({
+      type: "POST",
+      url: "../rotate_image.php",
+      data: {
+        id: id
+      },
+      success: function() {
+        alert("Rotated");
+      }
+    });
+  });
 
   // Removes a Img from Gallery
-  $('a.delete-img').on('click', function( event ) {
+  $('a.delete-img').on('click', function(event) {
     event.preventDefault();
     
     if (confirm("Are you sure you want to delete this image?")) {
