@@ -220,14 +220,13 @@ $(function() {
   $('.show-img').on('click', function(event) {
     event.preventDefault();
     
-    var parent = $(this).closest('div');
-    var id = parent.find('span').data('id');
+    var id = $(this).find('span').data('id');
     
     $('#imagepreview').attr('src', $('#imageresource' + id).attr('src'));
     $('#imagemodal').modal('show'); 
   });
 
-  //Likes Image
+  // Likes Image
   $('.like-img').on('click', function(event) {
     event.preventDefault();
   
@@ -239,12 +238,78 @@ $(function() {
       data: {
         id: id
       },
-      success: function() {
-        location.reload();
-      }
+      success: function(data) {
+        if (data == "success")  {
+          like_get(id);
+        }
+      } 
     });
+    function like_get(id) {
+      $.ajax({
+        type: "POST",
+        url: "../liked_image.php",
+        data: {
+          id: id
+        },
+        success: function(data) {
+          $('#liked_' + id + '_likes').text(data);
+        }
+      });
+    }
   });
 
+  // Viewed Count
+  $('.view-img').on('click', function(event) {
+    event.preventDefault();
+  
+    var id = $(this).find('span').data('id');
+    $('#imagepreview').attr('src', $('#imageresource' + id).attr('src'));
+    $('#imagemodal').modal('show'); 
+
+    $.ajax({
+      type: "POST",
+      url: "../view_image.php",
+      data: {
+        id: id
+      },
+      success: function(data) {
+        if (data == "success")  {
+          view_get(id);
+        }
+      } 
+    });
+    function view_get(id) {
+      $.ajax({
+        type: "POST",
+        url: "../viewed_image.php",
+        data: {
+          id: id
+        },
+        success: function(data) {
+          $('#viewed_' + id + '_views').text(data);
+        }
+      });
+    }
+  });
+
+  // View Count
+  /*
+  $('.view-img').on('click', function(event) {
+    event.preventDefault();
+  
+    var id = $(this).find('span').data('id');
+    $('#imagepreview').attr('src', $('#imageresource' + id).attr('src'));
+    $('#imagemodal').modal('show'); 
+
+    $.ajax({
+      type: "POST",
+      url: "../view_image.php",
+      data: {
+        id: id
+      },
+    });
+  });
+*/
   //Rotates Image
   $('.rotate').on('click', function(event) {
     event.preventDefault();

@@ -108,7 +108,8 @@ if (isset($_REQUEST['action'])) {
 	}
 	
 } else {
-$prev = "My Gallery";	
+
+$prev = "Select";	
 }
 ?>
 <div class="container">
@@ -211,11 +212,12 @@ $prev = "My Gallery";
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<!--
 					<h4 class="modal-title">Image Name</h4>
+					-->
 				</div>
 	      <div class="modal-body" id="my-body">
 	      	<img src="" id="imagepreview" height="600">
-	      	<a href="" class="rotate">Rotate</a>
 	      </div>
 	    </div>
 	  </div>
@@ -241,8 +243,10 @@ try {
 	    		 '<img class="show" id="imageresource' . $get['id'] . '" src="data:image;base64,'.$get['image'].' ">' .
 	    		 '<p>' . htmlspecialchars($get['description']) . '</p>' .
 	    		 '<a href="" class="delete-img pull-right">Delete</a>' .
-	    		 '<a href="#" class="show-img pull-right">Show</a>' .
-	    		 '<a href="#" class="like-img pull-left">' . $get['likes'] . ' ' . 'Like<span data-id=' . $get['id'] . ' class="glyphicon glyphicon-thumbs-up"></a>';
+	    		 '<p id="my-likes" class="pull-left">' . $get['likes'] . '
+	    		 ' . 'Like<span data-id=' . $get['id'] . ' class="glyphicon glyphicon-thumbs-up"></p>' .
+	    		 '<a href="#" class="show-img pull-right">' . $get['views'] . ' 
+    		   ' . 'View<span data-id=' . $get['id'] . ' class="glyphicon glyphicon-eye-open"></a>';
 	    		 ?>
 	    		 </a>	 
 	    		</div>

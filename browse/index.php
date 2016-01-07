@@ -18,7 +18,8 @@ if (isset($_REQUEST['action'])) {
 	}
 	
 } else {
-$prev = "Select";	
+
+$prev = "Ballparks";	
 }
 ?>
 
@@ -41,8 +42,8 @@ $prev = "Select";
 		              <option value="<?php echo htmlspecialchars($col['gallery']); ?>" 
 		              <?php if ( $col['gallery'] == "$prev") echo ' selected="selected"'; ?>>
 		                <?php echo htmlspecialchars($col['gallery']); ?></option>
-		      <?php } 
-		    } ?>
+		      	<?php } 
+		    				} ?>
 		    </select>
 		    <input type="hidden" name="action" value="old-select">
 		    <input type="submit" class="btn btn-primary btn-md" name="submit" value="Select">
@@ -54,6 +55,7 @@ $prev = "Select";
 		  </form>
 		</div>
 	</div>
+
 </div>
 <div class="container">
 	<?php echo  '<div class="container"><span data-gal=' . json_encode($prev) . '>' .
@@ -70,13 +72,34 @@ try {
   // Displays Images 
   // Loops 4 Images per Row
   foreach ($get_img as $get) {
-    echo '<div class="col-xs-6 col-md-3"><span data-id=' . $get['id'] . '>' . 
-    		 '<h3>' . htmlspecialchars($get['image_name']) .  '</span>' . '</h3>' .
-    		 '<a href="#" class="thumbnail">' .
-    		 '<img src="data:image;base64,'.$get['image'].' ">' .
-    		 '<p>' . htmlspecialchars($get['description']) . '</p>' ;?>
-    		 </a>
-    		 
+  	$myname = $get['image_name'];
+    echo  '<div class="col-xs-6 col-md-3"><span data-id=' . $get['id'] . '>' . 
+    		  '<h3>' . htmlspecialchars($get['image_name']) .  '</span>' . '</h3>';?>
+
+				  <div class="modal fade modal" id="imagemodal">
+						<div class="modal-dialog modal-md">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<!--
+									<h4 class="modal-title">Image Name</h4>
+									-->
+								</div>
+					      <div class="modal-body" id="my-body">
+					      	<img src="" id="imagepreview" height="600">
+					      </div>
+					    </div>
+					  </div>
+					</div> 
+          <?php echo
+    		  '<a href="#" id="name" class="thumbnail" data-toggle="modal">' .
+    		  '<img class="show" id="imageresource' . $get['id'] . '" src="data:image;base64,'.$get['image'].' ">' .
+    		  '<p>' . htmlspecialchars($get['description']) . '</p>' .
+    		  '<a href="#" class="like-img pull-left"><span  data-id=' . $get['id'] . ' class="glyphicon glyphicon-thumbs-up"></span> Like</a>
+    		  <span id="liked_' . $get['id'] . '_likes">' . $get['likes'] . '</span>' .
+          '<a href="#" class="view-img pull-right"><span  data-id=' . $get['id'] . ' class="glyphicon glyphicon-eye-open"></span> View</a> 
+    		  <span class="pull-right" id="viewed_' . $get['id'] . '_views">' . $get['views'] . '</span>'; ?>
+    		  </a>		 
     		</div>
       <?php
 			$i++;

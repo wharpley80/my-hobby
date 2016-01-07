@@ -8,7 +8,24 @@ h1 {
 }
 
 a {
+	color: #fff;
 	padding: 0 10px;
+}
+
+a.like-img {
+	padding: 0 10px 0 0;
+}
+
+a.delete-img {
+	padding: 0 0 0 10px;
+}
+
+#my-likes {
+	color: #fff;
+}
+
+a.view-img {
+	padding: 0;
 }
 
 .container {
@@ -25,6 +42,7 @@ a {
 }
 
 .row {
+	color: #fff;
 	margin: 20px 0;
 }
 
@@ -33,6 +51,7 @@ a {
 }
 
 .row h3 {
+	color: #000;
 	text-align: center;
 }
 
