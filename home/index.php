@@ -1,9 +1,6 @@
 <?php
 session_start();
-<<<<<<< HEAD
-=======
 
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
 $thisPage = "home";
 require_once('../inc/config.php');
 require_once(ROOT_PATH . 'inc/database.php');

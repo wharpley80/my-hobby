@@ -18,15 +18,10 @@
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-<<<<<<< HEAD
-  ga('create', 'UA-68657371-4', 'auto');
-  ga('send', 'pageview');
-=======
-
+  
   ga('create', 'UA-68657371-4', 'auto');
   ga('send', 'pageview');
 
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
 </script>
 </body>
 </html>

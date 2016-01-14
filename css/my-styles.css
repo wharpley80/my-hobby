@@ -9,13 +9,11 @@ h1 {
 
 a {
 	color: #fff;
-<<<<<<< HEAD
 	padding: 0 5px;
 }
 
 .container {
 	max-width: 1200px;
-=======
 	padding: 0 10px;
 }
 
@@ -39,12 +37,6 @@ a.view-img {
 	max-width: 1100px;
 }
 
-.container img {
-	min-height: 150px;
-	max-height: 250px;
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
-}
-
 .jumbotron {
 	text-align: center;
 }
@@ -54,11 +46,7 @@ a.view-img {
 	margin: 20px 0;
 }
 
-<<<<<<< HEAD
-h2 {
-=======
 .row h2 {
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
 	text-align: center;
 }
 
@@ -128,18 +116,8 @@ h2 {
         MODAL-IMAGE
 ****************************/
 
-<<<<<<< HEAD
 .modal-title {
 	text-align: center;
-=======
-#my-body {
-	height: 400px;
-}
-
-#imagepreview {
-	width: 100%;
-
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
 }
 
 /***************************
@@ -157,11 +135,8 @@ span.glyphicon {
   font-size: inherit;
   color: inherit;
   display: inline;
-<<<<<<< HEAD
-  padding: 0 5px
-=======
-  padding-left: 10px
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
+  padding: 0 5px;
+  padding-left: 10px;
 }
 
 /***************************
@@ -177,8 +152,8 @@ span.glyphicon {
 ****************************/
 
 .thumbnail {
-<<<<<<< HEAD
 	background-color: #dcdcdc;
+	margin-bottom: 0;
 }
 
 .thumbnail img {
@@ -193,23 +168,13 @@ max-height: 200px;
 	font-size: .8em;
 }
 
-span {
-	font-size: .8em;
-}
 
 span {
 	display: inline;
 }
 
-#browse-row {
+#browse-row a{
 	font-size: 1.2em;
-}
-
-#browse-row span {
-	font-size: 1em;
-=======
-
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
 }
 
 /*****************************
@@ -259,7 +224,6 @@ footer {
   width: 40px;
   padding-bottom: 10px;
 }
-<<<<<<< HEAD
 
 /*****************************
 			MEDIA QUERIES
@@ -274,6 +238,13 @@ footer {
 	label#gal {
 		display: block;
 	}
+
+	.btn-default {
+		font-size: .8em;
+		border-width: 1px;
+	  margin: 5px;
+	  padding: 5px 7px;
+  }
 }
 
 @media (max-width: 650px) {
@@ -290,9 +261,8 @@ footer {
 		font-size: 1em;
 	}
 
+	.row a {
+		font-size: .5em;
+  }
+
 }
-
-
-
-=======
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951

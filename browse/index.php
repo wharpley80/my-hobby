@@ -1,24 +1,19 @@
 <?php
 session_start();
-<<<<<<< HEAD
-=======
 
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
 $thisPage = "browse";
 require_once('../inc/config.php');
 require_once(ROOT_PATH . 'inc/header.php');
 require_once(ROOT_PATH . 'inc/database.php');
-<<<<<<< HEAD
-if (isset($_POST['search'])) {
-	$search = trim($_POST['search']);
-}
-=======
 
 if (isset($_POST['search'])) {
 	$search = trim($_POST['search']);
 }
 
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
+if (isset($_POST['search'])) {
+	$search = trim($_POST['search']);
+}
+
 if (isset($_REQUEST['action'])) {
 	$action = $_REQUEST['action'];
 	
@@ -27,10 +22,7 @@ if (isset($_REQUEST['action'])) {
 	}
 	
 } else {
-<<<<<<< HEAD
-=======
 
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
 $prev = "Ballparks";	
 }
 ?>
@@ -42,12 +34,7 @@ $prev = "Ballparks";
 		</div>
 	  <div class="panel-body">
 		  <form class="form-inline" method="POST">
-<<<<<<< HEAD
-		  	
 		  	<label id="gal" for="gallery">Select Gallery:</label>
-=======
-		  	<label for="gallery">Select Gallery:</label>
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
 		    <?php
 		    $cols = $db->prepare('SELECT DISTINCT(gallery) FROM image_collection ORDER BY gallery ASC'); 
 		    $cols->bindParam(1,$user_id);
@@ -64,10 +51,6 @@ $prev = "Ballparks";
 		    </select>
 		    <input type="hidden" name="action" value="old-select">
 		    <input type="submit" class="btn btn-primary btn-md" name="submit" value="Select">
-<<<<<<< HEAD
-
-=======
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
 		  </form>
 		  <form class="form-inline" method="POST">
 		  	<label for="search">Search for Specifics:</label>
@@ -76,7 +59,6 @@ $prev = "Ballparks";
 		  </form>
 		</div>
 	</div>
-<<<<<<< HEAD
   <div class="modal fade modal" id="imagemodal" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-md">
 			<div class="modal-content">
@@ -90,27 +72,16 @@ $prev = "Ballparks";
 	    </div>
 	  </div>
 	</div> 
-=======
-
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
 </div>
 <div class="container">
 	<?php echo  '<div class="container"><span data-gal=' . json_encode($prev) . '>' .
 							'<h1 class="gallery-name">' . htmlspecialchars($prev) . '</span>' . ' ' . '</h1>' . '</div>';
 	?>
-<<<<<<< HEAD
 	<div class="row" id="browse-row">
 <?php
 // Grabs selected Gallery to Browse
 try {
   $get_img = $db->prepare('SELECT * FROM image_collection WHERE gallery = ? AND image_name IS NOT NULL ORDER BY id DESC');
-=======
-	<div class="row">
-<?php
-// Grabs selected Gallery to Browse
-try {
-  $get_img = $db->prepare('SELECT * FROM image_collection WHERE gallery = ? AND image_name IS NOT NULL');
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
   $get_img->bindValue(1,$prev);
   $get_img->execute();
   $i = 0;
@@ -119,7 +90,6 @@ try {
   foreach ($get_img as $get) {
   	$myname = $get['image_name'];
     echo  '<div class="col-xs-6 col-md-3"><span data-id=' . $get['id'] . '>' . 
-<<<<<<< HEAD
 	    		  '<h3>' . htmlspecialchars($get['image_name']) .  '</span>' . '</h3>' .
 	    		  
 	    		  '<a href="#" id="name" class="thumbnail" data-toggle="modal">' .
@@ -136,38 +106,10 @@ try {
 	    		  <span id="viewed_' . $get['id'] . '_views">' . $get['views'] . '</span></a>';
     		    ?>	
     		  </a>	
-=======
-    		  '<h3>' . htmlspecialchars($get['image_name']) .  '</span>' . '</h3>';?>
-
-				  <div class="modal fade modal" id="imagemodal">
-						<div class="modal-dialog modal-md">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-									<!--
-									<h4 class="modal-title">Image Name</h4>
-									-->
-								</div>
-					      <div class="modal-body" id="my-body">
-					      	<img src="" id="imagepreview" height="600">
-					      </div>
-					    </div>
-					  </div>
-					</div> 
-          <?php echo
-    		  '<a href="#" id="name" class="thumbnail" data-toggle="modal">' .
-    		  '<img class="show" id="imageresource' . $get['id'] . '" src="data:image;base64,'.$get['image'].' ">' .
-    		  '<p>' . htmlspecialchars($get['description']) . '</p>' .
-    		  '<a href="#" class="like-img pull-left"><span  data-id=' . $get['id'] . ' class="glyphicon glyphicon-thumbs-up"></span> Like</a>
-    		  <span id="liked_' . $get['id'] . '_likes">' . $get['likes'] . '</span>' .
-          '<a href="#" class="view-img pull-right"><span  data-id=' . $get['id'] . ' class="glyphicon glyphicon-eye-open"></span> View</a> 
-    		  <span class="pull-right" id="viewed_' . $get['id'] . '_views">' . $get['views'] . '</span>'; ?>
-    		  </a>		 
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
     		</div>
       <?php
 			$i++;
-			if ($i%4 == 0) echo '</div><div class="row">';
+			if ($i%4 == 0) echo '</div><div class="row" id="browse-row">';
 	} 
 } catch (Exception $e) {
   echo "Data was not retrieved from the database successfully.";
@@ -179,10 +121,6 @@ try {
 <div class="container">
 	<div class="row">
 <?php
-<<<<<<< HEAD
-=======
-
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
 if (!empty($search)) {
 	// Searches for Specific Names
 	try {
