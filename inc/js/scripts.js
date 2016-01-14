@@ -24,7 +24,7 @@ $(function() {
           url: "../valid_password.php",
           type: "POST",
           data: {
-            username: function() {
+            'email-SI': function() {
               return $("#email-SI").val();
             }
           }
@@ -46,7 +46,7 @@ $(function() {
       $(element).tooltipster('update', $(error).text());
       $(element).tooltipster('show');
       $('#signIn').on('hidden.bs.modal', function () {
-      	$(element).tooltipster('hide');
+        $(element).tooltipster('hide');
       });
     },
     success: function (label, element) {
@@ -75,8 +75,8 @@ $(function() {
         required: true,
         minlength: 6,
         remote: {
-        	url: "../check_username.php",
-        	type: "POST"
+          url: "../check_username.php",
+          type: "POST"
         }
       },
       password: {
@@ -109,5 +109,338 @@ $(function() {
     success: function (label, element) {
       $(element).tooltipster('hide');
     }
+  });
+
+  // Initialize tooltipster on add_gallery input/select elements
+  $('#gallery-form input[type="text"], #gallery-form select').tooltipster({ 
+    animation: 'grow',
+    trigger: 'custom', // default is 'hover' which is no good here
+    onlyOne: false,    // allow multiple tips to be open at a time
+    position: 'top'  // display the tips to the right of the element
+  });
+
+  $("#gallery-form").validate({
+    rules: {
+      'new-gallery': {
+        required: true,
+        remote: {
+          url: "../check_galleryname.php",
+          type: "POST"
+        }
+      },
+      'gallery-type': {
+        required: true
+      }
+    },  
+    messages: {
+      'new-gallery': {
+        required: "Please Name New Gallery",
+        remote: "Choose A Unique Gallery Name"
+      },
+      'gallery-type': {
+        required: "Please Select A Gallery Type"
+      }
+    },
+    errorPlacement: function (error, element) {
+      $(element).tooltipster('update', $(error).text());
+      $(element).tooltipster('show');
+    },
+    success: function (label, element) {
+      $(element).tooltipster('hide');
+    }
+  });
+
+  // Initialize tooltipster on upload-form input elements
+  $('#upload-form input[type="file"], #upload-form input[type="text"], #upload-form textarea').tooltipster({ 
+    animation: 'grow',
+    trigger: 'custom', // default is 'hover' which is no good here
+    onlyOne: false,    // allow multiple tips to be open at a time
+    position: 'right'  // display the tips to the right of the element
+  });
+
+  $("#upload-form").validate({
+    rules: {
+      image: {
+        required: true
+      },
+      'image-name': {
+        required: true,
+        remote: {
+          url: "../check_imagename.php",
+          type: "POST"
+        }
+      },
+      description: {
+        required: true
+      }
+    },  
+    messages: {
+      image: {
+        required: "Please Select Image"
+      },
+      'image-name': {
+        required: "Please Name Image",
+        remote: "This Image Name Already Exists"
+      },
+      description: {
+        required: "Please Give Image Description"
+      }
+    },
+    errorPlacement: function (error, element) {
+      $(element).tooltipster('update', $(error).text());
+      $(element).tooltipster('show');
+      $('#upload').on('hidden.bs.modal', function () {
+       $(element).tooltipster('hide');
+      });
+    },
+    success: function (label, element) {
+      $(element).tooltipster('hide');
+    }
+  });
+
+  // Progress Bar
+  /*
+  $(function() {
+    $('#upload-form').ajaxForm({
+      beforeSend:function(){
+        $(".progress").show();
+      },
+      uploadProgress:function(event,position,total,percentComplete){
+        $('.progress-bar').width(percentComplete+ '%');
+        $('.sr-only').html(percentComplete+ '%');
+      },
+      success:function(){
+        window.location.href = '../collection/';
+      }
+    });
+    $(".progress").hide();
+  });
+*/
+
+  // Preview Image
+  /*
+  $('#preview').on('click', function(event) {
+    event.preventDefault();
+    var preview = $('.image').val();
+alert(preview);
+    $.ajax({
+      type: "POST",
+      url: "../preview_image.php",
+      data: {
+        preview: preview
+      },
+      success: function(data) {
+        alert(data);
+        $('#preview-modal').modal('show'); 
+        //$('#preview-img').attr('src', $(data:image;data).attr('src'));
+          
+      }
+    });
+  });
+*/
+  // Enlarges Image in Modal Window
+  $('.show-img').on('click', function(event) {
+    event.preventDefault();
+    
+    var id = $(this).find('span').data('id');
+    //alert('#imageresource');
+    $('#imagepreview').attr('src', $('#imageresource' + id).attr('src'));
+    $('#imagemodal').modal('show'); 
+  });
+
+  // Likes Image
+  $('.like-img').on('click', function(event) {
+    event.preventDefault();
+  
+    var id = $(this).find('span').data('id');
+
+    $.ajax({
+      type: "POST",
+      url: "../like_image.php",
+      data: {
+        id: id
+      },
+      success: function(data) {
+        if (data == "success")  {
+          like_get(id);
+        }
+      } 
+    });
+    function like_get(id) {
+      $.ajax({
+        type: "POST",
+        url: "../liked_image.php",
+        data: {
+          id: id
+        },
+        success: function(data) {
+          $('#liked_' + id + '_likes').text(data);
+        }
+      });
+    }
+  });
+
+  // Modal Title
+  $('.show-img').on('click', function(event) {
+    event.preventDefault();
+  
+    var id = $(this).find('span').data('id');
+    
+    $.ajax({
+      type: "POST",
+      url: "../modal_name.php",
+      data: {
+        id: id
+      },
+      success: function(data) {
+        $('#title-name').text(data);
+      }
+    });
+  });
+
+  // Modal Title
+  $('.view-img').on('click', function(event) {
+    event.preventDefault();
+  
+    var id = $(this).find('span').data('id');
+    
+    $.ajax({
+      type: "POST",
+      url: "../modal_name.php",
+      data: {
+        id: id
+      },
+      success: function(data) {
+        $('#title-name').text(data);
+      }
+    });
+  });
+
+  // Viewed Count
+  $('.view-img').on('click', function(event) {
+    event.preventDefault();
+  
+    var id = $(this).find('span').data('id');
+    $('#imagepreview').attr('src', $('#imageresource' + id).attr('src'));
+    $('#imagemodal').modal('show'); 
+
+    $.ajax({
+      type: "POST",
+      url: "../view_image.php",
+      data: {
+        id: id
+      },
+      success: function(data) {
+        if (data == "success")  {
+          view_get(id);
+        }
+      } 
+    });
+    function view_get(id) {
+      $.ajax({
+        type: "POST",
+        url: "../viewed_image.php",
+        data: {
+          id: id
+        },
+        success: function(data) {
+          $('#viewed_' + id + '_views').text(data);
+        }
+      });
+    }
+  });
+
+  // View Count
+  /*
+  $('.view-img').on('click', function(event) {
+    event.preventDefault();
+  
+    var id = $(this).find('span').data('id');
+    $('#imagepreview').attr('src', $('#imageresource' + id).attr('src'));
+    $('#imagemodal').modal('show'); 
+    $.ajax({
+      type: "POST",
+      url: "../view_image.php",
+      data: {
+        id: id
+      },
+    });
+  });
+*/
+  //Rotates Image
+  $('.rotate-img').on('click', function(event) {
+    event.preventDefault();
+  
+    var id = $(this).find('span').data('id');
+
+    $.ajax({
+      type: "POST",
+      url: "../rotate_image.php",
+      data: {
+        id: id
+      },
+      success: function(data) {
+        if (data == "success")  {
+          rotate_get(id);
+        }
+      }
+    });
+    function rotate_get(id) {
+      $.ajax({
+        type: "POST",
+        url: "../rotated_image.php",
+        data: {
+          id: id
+        },
+        success: function(data) {
+          $('#imageresource' + id).attr('src', 'data:image;base64,' + data);
+        }
+      });
+    }
+  });
+
+  // Removes a Img from Gallery
+  $('a.delete-img').on('click', function(event) {
+    event.preventDefault();
+    
+    if (confirm("Are you sure you want to delete this image?")) {
+      var parent = $(this).closest('div');
+      var id = $(this).find('span').data('id');
+      parent.fadeOut();
+     
+      $.ajax({
+        type: "POST",
+        url: "../delete_img.php",
+        data: {
+          id: id
+        },
+      });
+    }
+  });  
+
+  // Deletes a Specific Gallery
+  $(function() {
+    $('a#delete-gallery').on('click', function(event) {
+      event.preventDefault();
+    
+      if (confirm("Are you sure you want to delete this Gallery?")) {
+        var user = $('#name').closest('div');
+        var id = user.find('span').data('id');
+        var remove = $('.gallery-name').closest('div');
+        var gal = remove.find('span').data('gal');
+
+        $.ajax({
+          type: "POST",
+          url: "../delete_gallery.php",
+          data: {
+            id: id,
+            gal: gal
+          },
+          success: function() {
+            window.location.href = '../collection/';
+          }
+        });
+      }
+    });
   });
 });
