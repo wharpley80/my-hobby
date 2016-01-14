@@ -216,6 +216,7 @@ $(function() {
     $(".progress").hide();
   });
 */
+<<<<<<< HEAD
 
   // Preview Image
   /*
@@ -238,12 +239,18 @@ alert(preview);
     });
   });
 */
+=======
+>>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
   // Enlarges Image in Modal Window
   $('.show-img').on('click', function(event) {
     event.preventDefault();
     
     var id = $(this).find('span').data('id');
+<<<<<<< HEAD
     //alert('#imageresource');
+=======
+    
+>>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
     $('#imagepreview').attr('src', $('#imageresource' + id).attr('src'));
     $('#imagemodal').modal('show'); 
   });
@@ -280,6 +287,7 @@ alert(preview);
     }
   });
 
+<<<<<<< HEAD
   // Modal Title
   $('.show-img').on('click', function(event) {
     event.preventDefault();
@@ -316,6 +324,8 @@ alert(preview);
     });
   });
 
+=======
+>>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
   // Viewed Count
   $('.view-img').on('click', function(event) {
     event.preventDefault();
@@ -358,6 +368,10 @@ alert(preview);
     var id = $(this).find('span').data('id');
     $('#imagepreview').attr('src', $('#imageresource' + id).attr('src'));
     $('#imagemodal').modal('show'); 
+<<<<<<< HEAD
+=======
+
+>>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
     $.ajax({
       type: "POST",
       url: "../view_image.php",
@@ -368,10 +382,19 @@ alert(preview);
   });
 */
   //Rotates Image
+<<<<<<< HEAD
   $('.rotate-img').on('click', function(event) {
     event.preventDefault();
   
     var id = $(this).find('span').data('id');
+=======
+  $('.rotate').on('click', function(event) {
+    event.preventDefault();
+  
+    var parent = $('.show-img').closest('div');
+    var id = parent.find('span').data('id');
+    alert(id);
+>>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
 
     $.ajax({
       type: "POST",
@@ -379,6 +402,7 @@ alert(preview);
       data: {
         id: id
       },
+<<<<<<< HEAD
       success: function(data) {
         if (data == "success")  {
           rotate_get(id);
@@ -397,6 +421,12 @@ alert(preview);
         }
       });
     }
+=======
+      success: function() {
+        alert("Rotated");
+      }
+    });
+>>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
   });
 
   // Removes a Img from Gallery
@@ -405,7 +435,11 @@ alert(preview);
     
     if (confirm("Are you sure you want to delete this image?")) {
       var parent = $(this).closest('div');
+<<<<<<< HEAD
       var id = $(this).find('span').data('id');
+=======
+      var id = parent.find('span').data('id');
+>>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
       parent.fadeOut();
      
       $.ajax({

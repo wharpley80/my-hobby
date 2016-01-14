@@ -593,4 +593,8 @@ fieldset[disabled] .btn-danger.active {
   border-color: #dcdcdc;
   -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
