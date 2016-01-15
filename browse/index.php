@@ -73,7 +73,7 @@ $prev = "Ballparks";
 	  </div>
 	</div> 
 </div>
-<div class="container">
+<div class="container-fluid">
 	<?php echo  '<div class="container"><span data-gal=' . json_encode($prev) . '>' .
 							'<h1 class="gallery-name">' . htmlspecialchars($prev) . '</span>' . ' ' . '</h1>' . '</div>';
 	?>
@@ -103,13 +103,14 @@ try {
 	          
 	          '<a href="#" class="view-img pull-right"><span  data-id=' . $get['id'] . 
 	          ' class="glyphicon glyphicon-eye-open"></span>' . ' View
-	    		  <span id="viewed_' . $get['id'] . '_views">' . $get['views'] . '</span></a>';
-    		    ?>	
-    		  </a>	
-    		</div>
-      <?php
-			$i++;
-			if ($i%4 == 0) echo '</div><div class="row" id="browse-row">';
+	    		  <span id="viewed_' . $get['id'] . '_views">' . $get['views'] . '</span></a>' .
+    
+    		  	'</a>' .	
+    			'</div>';
+    		
+    			$i++;
+    			if ($i%2 == 0) echo '<div class="clearfix visible-xs"></div>';
+					if ($i%4 == 0) echo '</div><div class="row" id="browse-row">';
 	} 
 } catch (Exception $e) {
   echo "Data was not retrieved from the database successfully.";
@@ -133,16 +134,17 @@ if (!empty($search)) {
 	  // Loops 4 Images per Row
 	  foreach ($get_search as $searched) {
 	    echo '<div class="col-xs-6 col-md-3"><span data-id=' . $searched['id'] . '>' . 
-	    		 '<h3>' . htmlspecialchars($searched['image_name']) .  '</span>' . '</h3>' .
-	    		 '<a href="#" class="thumbnail">' .
-	    		 '<img src="data:image;base64,'.$searched['image'].' ">' .
-	    		 '<p>' . htmlspecialchars($searched['description']) . '</p>' ;?>
-	    		 </a>
-	    		 
-	    		</div>
-	      <?php
-				$j++;
-				if ($j%4 == 0) echo '</div><div class="row">';
+		    		 '<h3>' . htmlspecialchars($searched['image_name']) .  '</span>' . '</h3>' .
+		    		 '<a href="#" class="thumbnail">' .
+		    		 '<img src="data:image;base64,'.$searched['image'].' ">' .
+		    		 '<p>' . htmlspecialchars($searched['description']) . '</p>' .
+		    		 '</a>' .
+	    		 '</div>';
+
+					 $j++;
+				   if ($j%2 == 0) echo '<div class="clearfix visible-xs"></div>';
+				   if ($j%4 == 0) echo '</div><div class="row">';
+				
 		} 
 	} catch (Exception $e) {
 	  echo "Data was not retrieved from the database successfully.";

@@ -249,7 +249,7 @@ try {
 						 
 						 '</a>' .
 	    		   
-	    		   '<div>' .
+	    		   '<div class="">' .
 
 		    		   '<a href="#" class="show-img">' . $get['views'] . ' '.  
 		    		   'View<span data-id=' . $get['id'] . ' class="glyphicon glyphicon-eye-open"></span>' . '</a>' . 
@@ -266,11 +266,11 @@ try {
 		    		 ' class="glyphicon glyphicon-trash"></span>' . '</a>' . 
 	    		   
 	    		  '</div>';
-	    		 ?>
-
-	      <?php
-				$i++;
-				if ($i%4 == 0) echo '</div><div class="row">';
+	 
+						$i++;
+						if ($i%2 == 0) echo '<div class="clearfix visible-xs"></div>';
+						if ($i%4 == 0) echo '</div><div class="row">';
+						
 		}
 	} 
 } catch (Exception $e) {

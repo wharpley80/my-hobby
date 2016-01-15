@@ -153,11 +153,11 @@ span.glyphicon {
 
 .thumbnail {
 	background-color: #dcdcdc;
-	margin-bottom: 0;
+	margin-bottom: 10px;
 }
 
 .thumbnail img {
-max-height: 200px;
+	max-height: 250px;
 }
 
 .thumbnail p {
@@ -168,12 +168,15 @@ max-height: 200px;
 	font-size: .8em;
 }
 
+.col {
+	max-height: 200px;
+}
 
 span {
 	display: inline;
 }
 
-#browse-row a{
+#browse-row a {
 	font-size: 1.2em;
 }
 
@@ -253,16 +256,16 @@ footer {
 		font-size: 40px;
 	}
 
-	#browse-row {
-		font-size: 1em;
-	}
-
-	#browse-row span {
-		font-size: 1em;
+	#browse-row a {
+		font-size: .6em;
 	}
 
 	.row a {
 		font-size: .5em;
+  }
+
+  .row span {
+  	padding: 0 0 0 3px;
   }
 
 }

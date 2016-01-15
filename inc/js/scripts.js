@@ -238,6 +238,15 @@ alert(preview);
       }
     });
   });
+*//*
+$(function() {
+   var width = $(window).width();
+
+   if (width < 800) {
+      $('#large').hide();
+      //$('#small').show();
+    } 
+});
 */
 
   // Enlarges Image in Modal Window
