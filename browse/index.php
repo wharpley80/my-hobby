@@ -10,10 +10,6 @@ if (isset($_POST['search'])) {
 	$search = trim($_POST['search']);
 }
 
-if (isset($_POST['search'])) {
-	$search = trim($_POST['search']);
-}
-
 if (isset($_REQUEST['action'])) {
 	$action = $_REQUEST['action'];
 	
@@ -23,10 +19,10 @@ if (isset($_REQUEST['action'])) {
 	
 } else {
 
-$prev = "Ballparks";	
+	$prev = "Select";	
+
 }
 ?>
-
 <div class="container">
 	<div class="panel panel-default">
 	  <div class="panel-heading" id="head">
@@ -36,7 +32,7 @@ $prev = "Ballparks";
 		  <form class="form-inline" method="POST">
 		  	<label id="gal" for="gallery">Select Gallery:</label>
 		    <?php
-		    $cols = $db->prepare('SELECT DISTINCT(gallery) FROM image_collection ORDER BY gallery ASC'); 
+		    $cols = $db->prepare('SELECT DISTINCT(gallery) FROM image_collection WHERE privacy = "public" ORDER BY gallery ASC'); 
 		    $cols->bindParam(1,$user_id);
 		    $cols->execute();?>
 		    <select class="form-control" id="return" name="gallery">
@@ -73,87 +69,96 @@ $prev = "Ballparks";
 	  </div>
 	</div> 
 </div>
-<div class="container-fluid">
-	<?php echo  '<div class="container"><span data-gal=' . json_encode($prev) . '>' .
-							'<h1 class="gallery-name">' . htmlspecialchars($prev) . '</span>' . ' ' . '</h1>' . '</div>';
-	?>
-	<div class="row" id="browse-row">
 <?php
-// Grabs selected Gallery to Browse
-try {
-  $get_img = $db->prepare('SELECT * FROM image_collection WHERE gallery = ? AND image_name IS NOT NULL ORDER BY id DESC');
-  $get_img->bindValue(1,$prev);
-  $get_img->execute();
-  $i = 0;
-  // Displays Images 
-  // Loops 4 Images per Row
-  foreach ($get_img as $get) {
-  	$myname = $get['image_name'];
-    echo  '<div class="col-xs-6 col-md-3"><span data-id=' . $get['id'] . '>' . 
-	    		  '<h3>' . htmlspecialchars($get['image_name']) .  '</span>' . '</h3>' .
-	    		  
-	    		  '<a href="#" id="name" class="thumbnail" data-toggle="modal">' .
-	    		  '<img class="show" id="imageresource' . $get['id'] . '" src="data:image;base64,
-	    		  '.$get['image'].'">' .
-	    		  '<p>' . htmlspecialchars($get['description']) . '</p>' .
-	   
-	    		  '<a href="#" class="like-img pull-left"><span data-id=' . $get['id'] .
-	    		  ' class="glyphicon glyphicon-thumbs-up"></span>' . ' Like
-	    		  <span id="liked_' . $get['id'] . '_likes">' . $get['likes'] . '</span></a>' .
-	          
-	          '<a href="#" class="view-img pull-right"><span  data-id=' . $get['id'] . 
-	          ' class="glyphicon glyphicon-eye-open"></span>' . ' View
-	    		  <span id="viewed_' . $get['id'] . '_views">' . $get['views'] . '</span></a>' .
-    
-    		  	'</a>' .	
-    			'</div>';
-    		
+ if ($prev !== "Select") {?>
+	<div class="container-fluid">
+		<?php echo  
+					'<div class="container"><span data-gal=' . json_encode($prev) . '>' .
+						'<h1 class="gallery-name">' . htmlspecialchars($prev) . '</span>' . ' ' . '</h1>' . 
+					'</div>';
+		?>
+		<div class="row" id="browse-row">
+			<?php
+			// Grabs selected Gallery to Browse
+			try {
+			  $get_img = $db->prepare('SELECT * FROM image_collection WHERE gallery = ? 
+			  	 AND image_name IS NOT NULL ORDER BY id DESC');
+			  $get_img->bindValue(1,$prev);
+			  $get_img->execute();
+			  $i = 0;
+			  // Displays Images 
+			  // Loops 4 Images per Row
+			  foreach ($get_img as $get) {
+			  	$myname = $get['image_name'];
+			    echo  
+          '<div class="col-xs-6 col-md-3"><span data-id=' . $get['id'] . '>' . 
+    		  	'<h3>' . htmlspecialchars($get['image_name']) .  '</span>' . '</h3>' .
+	    		  '<a href="#" id="name" class="thumbnail" data-toggle="modal"><span data-id=' . $get['id'] . '></span>' .
+		    		  '<img class="show-img" id="imageresource' . $get['id'] . '" src="data:image;base64,' . $get['image'] . '">' . 
+    		  		'<p>' . htmlspecialchars($get['description']) . '</p>' .
+		    		  '<a href="#" class="like-img pull-left"><span data-id=' . $get['id'] .
+		    		  ' class="glyphicon glyphicon-thumbs-up"></span>' . ' Like
+		    		  <span id="liked_' . $get['id'] . '_likes">' . $get['likes'] . '</span>
+		    		  </a>' .
+		          /*
+		          '<a href="#" class="view-img pull-right"><span  data-id=' . $get['id'] . 
+		          ' class="glyphicon glyphicon-eye-open"></span>' . ' View
+		    		  <span id="viewed_' . $get['id'] . '_views">' . $get['views'] . '</span></a>' .
+	            */
+  		  		'</a>' .	
+  				'</div>';
     			$i++;
     			if ($i%2 == 0) echo '<div class="clearfix visible-xs"></div>';
 					if ($i%4 == 0) echo '</div><div class="row" id="browse-row">';
-	} 
-} catch (Exception $e) {
-  echo "Data was not retrieved from the database successfully.";
-  exit;
-}
-?>
+				} 
+			} catch (Exception $e) {
+			  echo "Data was not retrieved from the database successfully.";
+			  exit;
+			}
+			?>
+		</div>
 	</div>
-</div>
+<?php } ?>
 <div class="container">
-	<div class="row">
-<?php
-if (!empty($search)) {
-	// Searches for Specific Names
-	try {
-	  $get_search = $db->prepare('SELECT * FROM image_collection WHERE image_name LIKE ? OR description LIKE ?');
-	  $get_search->bindValue(1, "%" . $search . "%");
-	  $get_search->bindValue(2, "%" . $search . "%");
-	  $get_search->execute();
-	  $j = 0;
-	  // Displays Images 
-	  // Loops 4 Images per Row
-	  foreach ($get_search as $searched) {
-	    echo '<div class="col-xs-6 col-md-3"><span data-id=' . $searched['id'] . '>' . 
-		    		 '<h3>' . htmlspecialchars($searched['image_name']) .  '</span>' . '</h3>' .
-		    		 '<a href="#" class="thumbnail">' .
-		    		 '<img src="data:image;base64,'.$searched['image'].' ">' .
-		    		 '<p>' . htmlspecialchars($searched['description']) . '</p>' .
-		    		 '</a>' .
-	    		 '</div>';
-
-					 $j++;
-				   if ($j%2 == 0) echo '<div class="clearfix visible-xs"></div>';
-				   if ($j%4 == 0) echo '</div><div class="row">';
-				
-		} 
-	} catch (Exception $e) {
-	  echo "Data was not retrieved from the database successfully.";
-	  exit;
-	}
-}
-?>
+	<div class="row" id="browse-row">
+		<?php
+		// Searches for Specific Names
+		if (!empty($search)) { ?>
+			<div class="container">
+				<h1 class="gallery-name">Search Results</h1>
+			</div>
+			<?php
+			try {
+			  $get_search = $db->prepare('SELECT * FROM image_collection WHERE privacy = "public" AND image_name LIKE ? OR privacy = "public" AND description LIKE ?');
+			  $get_search->bindValue(1, "%" . $search . "%");
+			  $get_search->bindValue(2, "%" . $search . "%");
+			  $get_search->execute();
+			  $j = 0;
+			  // Displays Images 
+			  // Loops 4 Images per Row
+			  foreach ($get_search as $searched) {
+			    echo 
+			    '<div class="col-xs-6 col-md-3"><span data-id=' . $searched['id'] . '>' . 
+	    			'<h3>' . htmlspecialchars($searched['image_name']) .  '</span>' . '</h3>' .
+	    		 	'<a href="#" class="thumbnail" data-toggle="modal"><span data-id=' . $searched['id'] . '></span>' .	    		 
+	    		  	'<img class="show-img" id="imageresource' . $searched['id'] . '" src="data:image;base64,'.$searched['image'].' ">' .	    		 
+	    		    '<p>' . htmlspecialchars($searched['description']) . '</p>' .
+	    		 		'<a href="#" class="like-img pull-left"><span data-id=' . $searched['id'] .
+	    		  		' class="glyphicon glyphicon-thumbs-up"></span>' . ' Like
+	    		  		<span id="liked_' . $searched['id'] . '_likes">' . $searched['likes'] . '</span>
+	    		  	 </a>' . 
+	    		  '</a>' .
+    		  '</div>';
+				  $j++;
+			    if ($j%2 == 0) echo '<div class="clearfix visible-xs"></div>';
+			    if ($j%4 == 0) echo '</div><div class="row" id="browse-row">';			
+				} 
+			} catch (Exception $e) {
+			  echo "Data was not retrieved from the database successfully.";
+			  exit;
+			}
+		}
+		?>
 	</div>
 </div>
-<?php
-require_once(ROOT_PATH . 'inc/footer.php');
-?>
+<?php require_once(ROOT_PATH . 'inc/footer.php'); ?>

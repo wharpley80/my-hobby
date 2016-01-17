@@ -112,7 +112,7 @@ $(function() {
   });
 
   // Initialize tooltipster on add_gallery input/select elements
-  $('#gallery-form input[type="text"], #gallery-form select').tooltipster({ 
+  $('#gallery-form input[type="text"], #gallery-form select, #gallery-form input[type=radio]').tooltipster({ 
     animation: 'grow',
     trigger: 'custom', // default is 'hover' which is no good here
     onlyOne: false,    // allow multiple tips to be open at a time
@@ -130,6 +130,9 @@ $(function() {
       },
       'gallery-type': {
         required: true
+      },
+      optionsRadios: {
+        required: true
       }
     },  
     messages: {
@@ -139,6 +142,9 @@ $(function() {
       },
       'gallery-type': {
         required: "Please Select A Gallery Type"
+      },
+      optionsRadios: {
+        required: "Please Select A Privacy"
       }
     },
     errorPlacement: function (error, element) {
@@ -217,46 +223,25 @@ $(function() {
   });
 */
 
-
-  // Preview Image
-  /*
-  $('#preview').on('click', function(event) {
-    event.preventDefault();
-    var preview = $('.image').val();
-alert(preview);
-    $.ajax({
-      type: "POST",
-      url: "../preview_image.php",
-      data: {
-        preview: preview
-      },
-      success: function(data) {
-        alert(data);
-        $('#preview-modal').modal('show'); 
-        //$('#preview-img').attr('src', $(data:image;data).attr('src'));
-          
-      }
-    });
-  });
-*//*
-$(function() {
-   var width = $(window).width();
-
-   if (width < 800) {
-      $('#large').hide();
-      //$('#small').show();
-    } 
-});
-*/
-
   // Enlarges Image in Modal Window
   $('.show-img').on('click', function(event) {
     event.preventDefault();
     
-    var id = $(this).find('span').data('id');
-
+    var id = $(this).parent('a').find('span').data('id');
+    
     $('#imagepreview').attr('src', $('#imageresource' + id).attr('src'));
     $('#imagemodal').modal('show'); 
+
+    $.ajax({
+      type: "POST",
+      url: "../modal_name.php",
+      data: {
+        id: id
+      },
+      success: function(data) {
+        $('#title-name').text(data);
+      }
+    });
   });
 
   // Likes Image
@@ -292,28 +277,10 @@ $(function() {
   });
 
   // Modal Title
-  $('.show-img').on('click', function(event) {
-    event.preventDefault();
-  
-    var id = $(this).find('span').data('id');
-    
-    $.ajax({
-      type: "POST",
-      url: "../modal_name.php",
-      data: {
-        id: id
-      },
-      success: function(data) {
-        $('#title-name').text(data);
-      }
-    });
-  });
-
-  // Modal Title
   $('.view-img').on('click', function(event) {
     event.preventDefault();
   
-    var id = $(this).find('span').data('id');
+    $(this).parent('a').find('span').data('id');
     
     $.ajax({
       type: "POST",
@@ -361,27 +328,6 @@ $(function() {
     }
   });
 
-  // View Count
-  /*
-  $('.view-img').on('click', function(event) {
-    event.preventDefault();
-  
-    var id = $(this).find('span').data('id');
-    $('#imagepreview').attr('src', $('#imageresource' + id).attr('src'));
-    $('#imagemodal').modal('show'); 
-<<<<<<< HEAD
-=======
-
->>>>>>> df4bbfe9a9e6bc2fbb1b3e28815a8efb8f5c0951
-    $.ajax({
-      type: "POST",
-      url: "../view_image.php",
-      data: {
-        id: id
-      },
-    });
-  });
-*/
   //Rotates Image
   $('.rotate-img').on('click', function(event) {
     event.preventDefault();
@@ -415,7 +361,7 @@ $(function() {
     }
   });
 
-  // Removes a Img from Gallery
+  // Removes a Image from Gallery
   $('a.delete-img').on('click', function(event) {
     event.preventDefault();
     

@@ -29,13 +29,15 @@ $your_name = yourname($user_id);
 if (isset($_POST['new-submit'])) {
   $new_gallery = trim($_POST['new-gallery']);
   $gallery_type = $_POST['gallery-type'];
+  $privacy = $_POST['optionsRadios'];
   
   if (!empty($new_gallery)) { 
     try {
-      $list = $db->prepare('INSERT INTO image_collection (name_id,gallery,gallery_type) VALUES(?,?,?)');
+      $list = $db->prepare('INSERT INTO image_collection (name_id,gallery,gallery_type,privacy) VALUES(?,?,?,?)');
       $list->bindParam(1,$user_id);
       $list->bindParam(2,$new_gallery);
       $list->bindParam(3,$gallery_type);
+      $list->bindParam(4,$privacy);
       $list->execute();
     } catch (Exception $e) {
       echo 'Data was not submitted to the database successfully.';
@@ -66,6 +68,7 @@ if (isset($_POST['rename'])) {
 // Uploads Images to Database
 if  (isset($_POST['sumit']) && isset($_FILES['image'])) {
     $file_temp = $_FILES['image']['tmp_name'];
+
 	if (getimagesize($file_temp) == FALSE) {
 		echo "Please select an image.";
 	
@@ -78,23 +81,35 @@ if  (isset($_POST['sumit']) && isset($_FILES['image'])) {
 	  $image = base64_encode($image);
 	  $image_name = trim($_POST['image-name']);
 	  $description = trim($_POST['description']);
-    
+
+	  try {
+	  	$priv = $db->prepare('SELECT DISTINCT(privacy) FROM image_collection WHERE gallery = ?');
+	  	$priv->bindParam(1,$gallery_name);
+	  	$priv->execute();  	
+	  	foreach ($priv as $prv) {
+	  		$privac = $prv['privacy'];
+		  }
+		} catch (Exception $e) {
+      echo "Error accessing privacy from database.";
+		  exit;
+	  }
+
 		try {
-		  $img = $db->prepare('INSERT INTO image_collection (name,image,name_id,image_name,gallery,description) 
-		  	VALUES (?,?,?,?,?,?)');
+		  $img = $db->prepare('INSERT INTO image_collection (name,image,name_id,image_name,gallery,description,privacy) 
+		  	VALUES (?,?,?,?,?,?,?)');
 		  $img->bindParam(1,$name);
 		  $img->bindParam(2,$image);
 		  $img->bindParam(3,$user_id);
 		  $img->bindParam(4,$image_name);
 		  $img->bindParam(5,$gallery_name);
 		  $img->bindParam(6,$description);
+		  $img->bindParam(7,$privac);
 		  $img->execute();
 		  echo '<p class="alert alert-success" role="alert">Image Uploaded Successfully!</p>';
 		} catch (Exception $e) {
       echo '<p class="alert alert-danger" role="alert">Image Not Uploaded!</p>';
 		  exit;
 		}
-		//imagedestroy($image);
 	}
 }
 if (isset($_REQUEST['action'])) {
@@ -115,9 +130,10 @@ $prev = "Select";
 <div class="container">
 	<div class="panel panel-default">
 	  <div class="panel-heading" id="head">
-	  	<?php echo  '<div><span data-id=' . $user_id . '>' . 
-	  				'<h2 class="panel-title" id="name">' . htmlspecialchars($your_name) . '</span>' . ' ' . '</h2>' .
-				    '<a class="btn btn-danger btn-sm pull-right" id="logout" href="' . BASE_URL . 'index.php">Log Out &amp Save</a>' .
+	  	<?php echo  
+	  				'<div><span data-id=' . $user_id . '>' . 
+	  					'<h2 class="panel-title" id="name">' . htmlspecialchars($your_name) . '</span>' . ' ' . '</h2>' .
+				    	'<a class="btn btn-danger btn-sm pull-right" id="logout" href="' . BASE_URL . 'index.php">Log Out &amp Save</a>' .
             '</div>'; 
       ?>
 		</div>
@@ -151,13 +167,25 @@ $prev = "Select";
 					  <option>Wood Work</option>
 					  <option>Other</option>
         	</select>
+        	<div class="radio">
+	        	<label>
+	      			<input type="radio" name="optionsRadios" class="optionsRadios" value="public"> Public
+	    			</label>
+    			</div>
+    			<div class="radio">
+	    			<label>
+	      			<input type="radio" name="optionsRadios" class="optionsRadios" value="private"> Private
+	    			</label>
+    			</div>
 	  		</div>
 	  		<input type="submit" class="btn btn-primary btn-md" name="new-submit" value="Add">
 	  	</form>
 	  </div>
 	</div>
-	<?php echo  '<div class="container"><span data-gal=' . json_encode($prev) . '>' .
-							'<h1 class="gallery-name">' . htmlspecialchars($prev) . '</span>' . ' ' . '</h1>' . '</div>';
+	<?php echo  
+				'<div class="container"><span data-gal=' . json_encode($prev) . '>' .
+					'<h1 class="gallery-name">' . htmlspecialchars($prev) . '</span>' . ' ' . '</h1>' . 
+				'</div>';
 	?>
   <form class="form-inline" id="upload-form" method="POST" enctype="multipart/form-data">
   	<div>
@@ -225,59 +253,48 @@ $prev = "Select";
 </div>
 <div class="container">
 	<div class="row">
-<?php
-try {
-  $get_img = $db->prepare('SELECT * FROM image_collection WHERE name_id = ? AND gallery = ? ORDER BY id DESC');
-  $get_img->bindValue(1,$user_id);
-  $get_img->bindValue(2,$prev);
-  $get_img->execute();
-  $i = 0;
-  // Displays Images 
-  // Loops 4 Images per Row
-  foreach ($get_img as $get) {
-  	if (!empty($get['image'])) {
-	    echo '<div class="col-xs-6 col-md-3" id="item-row"><span data-id=' . $get['id'] . '></span>' . 
-		    		 
-		    		 '<h3>' . htmlspecialchars($get['image_name']) .  '</span>' . '</h3>' .
-		    		 
-		    		 '<a href="#" id="name" class="thumbnail" data-toggle="modal">' .
-		    		 
-			    		 '<img class="img-responsive"  src="data:image;base64,' . $get['image'] . '" 
-			    		 	id="imageresource' . $get['id'] . '">'  . 
-			    		 
-			    		 '<p>' . htmlspecialchars($get['description']) . '</p>' .
-						 
-						 '</a>' .
-	    		   
-	    		   '<div class="">' .
-
-		    		   '<a href="#" class="show-img">' . $get['views'] . ' '.  
-		    		   'View<span data-id=' . $get['id'] . ' class="glyphicon glyphicon-eye-open"></span>' . '</a>' . 
-	 						 
-	 						 '<a href="#" class="rotate-img">Rotate<span data-id=' . $get['id'] . 
-			    		 ' class="glyphicon glyphicon-refresh"></span>' . '</a>' .
-		    		   
-		    		   '<a href="javascript:void(0);" id="my-likes">' . $get['likes'] . ' ' . 'Like<span data-id=' . $get['id'] . 
-		    		   ' class="glyphicon glyphicon-thumbs-up"></a>' .
-	    		   
-	    		   '</div>' .
-
-	    		   '<a href="" class="delete-img pull-right">Delete<span data-id=' . $get['id'] . 
-		    		 ' class="glyphicon glyphicon-trash"></span>' . '</a>' . 
-	    		   
-	    		  '</div>';
-	 
-						$i++;
-						if ($i%2 == 0) echo '<div class="clearfix visible-xs"></div>';
-						if ($i%4 == 0) echo '</div><div class="row">';
-						
+		<?php
+		try {
+		  $get_img = $db->prepare('SELECT * FROM image_collection WHERE name_id = ? AND gallery = ? ORDER BY id DESC');
+		  $get_img->bindValue(1,$user_id);
+		  $get_img->bindValue(2,$prev);
+		  $get_img->execute();
+		  
+		  // Displays Images 
+		  // Loops 4 Images per Row
+		  $i = 0;
+		  foreach ($get_img as $get) {
+		  	if (!empty($get['image'])) {
+			    echo 
+			    '<div class="col-xs-6 col-md-3" id="item-row"><span data-id=' . $get['id'] . '></span>' . 
+				  	'<h3>' . htmlspecialchars($get['image_name']) .  '</span>' . '</h3>' .
+				    '<a href="#" id="name" class="thumbnail" data-toggle="modal"><span data-id=' . $get['id'] . '></span>' .
+				    	'<img class="show-img"  src="data:image;base64,' . $get['image'] . '" id="imageresource' . $get['id'] . '">'  . 
+					    '<p>' . htmlspecialchars($get['description']) . '</p>' .
+						'</a>' .	    		   
+		        /*
+				    '<a href="#" class="show-img">' . $get['views'] . ' '. 'View<span data-id=' . $get['id'] . 
+				    	' class="glyphicon glyphicon-eye-open"></span>' . 
+				    '</a>' . 
+						*/	    		   
+			    	'<a href="javascript:void(0);" id="my-likes">' . $get['likes'] . ' ' . 'Like<span data-id=' . $get['id'] . 
+			    		' class="glyphicon glyphicon-thumbs-up">
+			    	 </a>' .
+			      '<a href="#" class="rotate-img">Rotate<span data-id=' . $get['id'] . ' class="glyphicon glyphicon-refresh"></span>' . 
+			      '</a>' .
+						'<a href="" class="delete-img">Delete<span data-id=' . $get['id'] . ' class="glyphicon glyphicon-trash"></span>' . 
+						'</a>' . 
+			    '</div>';
+					$i++;
+					if ($i%2 == 0) echo '<div class="clearfix visible-xs"></div>';
+					if ($i%4 == 0) echo '</div><div class="row">';
+				}
+			} 
+		} catch (Exception $e) {
+		  echo "Data was not retrieved from the database successfully.";
+		  exit;
 		}
-	} 
-} catch (Exception $e) {
-  echo "Data was not retrieved from the database successfully.";
-  exit;
-}
-?>
+		?>
 	</div>
 	<a class="btn btn-default btn-md pull-right" id="delete-gallery" href="">Delete Gallery<span class="glyphicon glyphicon-trash"></span></a>
   <a class="btn btn-default btn-md pull-right" href="#edit-galleryname">Rename Gallery<span class="glyphicon glyphicon-pencil"></span></a>

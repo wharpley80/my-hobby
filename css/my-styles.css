@@ -17,22 +17,6 @@ a {
 	padding: 0 10px;
 }
 
-a.like-img {
-	padding: 0 10px 0 0;
-}
-
-a.delete-img {
-	padding: 0 0 0 10px;
-}
-
-#my-likes {
-	color: #fff;
-}
-
-a.view-img {
-	padding: 0;
-}
-
 .container {
 	max-width: 1100px;
 }
@@ -145,6 +129,7 @@ span.glyphicon {
 
 .gallery-name {
 	text-align: center;
+	color: #000;
 }
 
 /***************************
@@ -165,7 +150,7 @@ span.glyphicon {
 }
 
 .row a {
-	font-size: .8em;
+	font-size: 1em;
 }
 
 .col {
@@ -178,6 +163,26 @@ span {
 
 #browse-row a {
 	font-size: 1.2em;
+}
+
+a.like-img {
+	padding: 0 5px 0 0;
+}
+
+a.rotate-img {
+	padding: 0 0 0 5px;
+}
+
+a.delete-img {
+	padding: 0 0 0 10px;
+}
+
+#my-likes {
+	color: #fff;
+}
+
+a.view-img {
+	padding: 0;
 }
 
 /*****************************
@@ -204,7 +209,8 @@ span {
 ****************************/
 
 label {
-	font-size: 1.25em;
+	font-size: 1em;
+	padding-left: 10px;
 }
 
 /*****************************
@@ -261,7 +267,7 @@ footer {
 	}
 
 	.row a {
-		font-size: .5em;
+		font-size: .6em;
   }
 
   .row span {
