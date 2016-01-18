@@ -213,6 +213,11 @@ label {
 	padding-left: 10px;
 }
 
+#form-space {
+	display: block;
+	margin: 10px 0 ;
+}
+
 /*****************************
 			FOOTER
 *****************************/

@@ -65,6 +65,12 @@ if (isset($_REQUEST['action'])) {
 	      <div class="modal-body" id="my-body">
 	      	<img src="" id="imagepreview" class="img-responsive">
 	      </div>
+	      <div class="modal-body">
+	      	<p id="modal-description"></p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      	</div>
 	    </div>
 	  </div>
 	</div> 

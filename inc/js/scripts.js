@@ -277,10 +277,10 @@ $(function() {
   });
 
   // Modal Title
-  $('.view-img').on('click', function(event) {
+  $('.show-img').on('click', function(event) {
     event.preventDefault();
   
-    $(this).parent('a').find('span').data('id');
+    var id = $(this).parent('a').find('span').data('id');
     
     $.ajax({
       type: "POST",
@@ -291,6 +291,66 @@ $(function() {
       success: function(data) {
         $('#title-name').text(data);
       }
+    });
+    // Edit Image Name
+    $('#change-name').on('click', function(event) {
+      event.preventDefault();
+      var name = $('#new-name').val(); 
+
+      function edit_name(id,name) {
+        $.ajax({
+          type: "POST",
+          url: "../edit_name.php",
+          data: {
+            id: id,
+            name: name
+          },
+          success: function(data) {
+            $('#title-name').text(data);
+            $('#edited_' + id + '_name').text(data);
+          }
+        });
+      }
+      edit_name(id,name);
+    });
+  });
+
+  // Modal Description
+  $('.show-img').on('click', function(event) {
+    event.preventDefault();
+  
+    var id = $(this).parent('a').find('span').data('id');
+
+    $.ajax({
+      type: "POST",
+      url: "../modal_description.php",
+      data: {
+        id: id
+      },
+      success: function(data) {
+        $('#modal-description').text(data);
+      }
+    });
+    // Edit Image Description
+    $('#change-description').on('click', function(event) {
+      event.preventDefault();
+      var description = $('#new-description').val(); 
+
+      function edit_description(id,description) {
+        $.ajax({
+          type: "POST",
+          url: "../edit_description.php",
+          data: {
+            id: id,
+            description: description
+          },
+          success: function(data) {
+            $('#modal-description').text(data);
+            $('#edited_' + id + '_description').text(data);
+          }
+        });
+      }
+      edit_description(id,description);
     });
   });
 

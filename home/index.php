@@ -242,6 +242,4 @@ require_once(ROOT_PATH . 'inc/header.php');
 	 		</div>
 	 	</div>
 	</div>
-<?php
-require_once(ROOT_PATH . 'inc/footer.php');
-?>
+<?php require_once(ROOT_PATH . 'inc/footer.php'); ?>
