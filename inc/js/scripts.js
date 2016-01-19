@@ -175,9 +175,6 @@ $(function() {
           url: "../check_imagename.php",
           type: "POST"
         }
-      },
-      description: {
-        required: true
       }
     },  
     messages: {
@@ -187,9 +184,6 @@ $(function() {
       'image-name': {
         required: "Please Name Image",
         remote: "This Image Name Already Exists"
-      },
-      description: {
-        required: "Please Give Image Description"
       }
     },
     errorPlacement: function (error, element) {

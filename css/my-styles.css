@@ -104,6 +104,12 @@ a {
 	text-align: center;
 }
 
+#imagepreview {
+	max-height: 500px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 /***************************
         GLYPHICON
 ****************************/
@@ -120,7 +126,6 @@ span.glyphicon {
   color: inherit;
   display: inline;
   padding: 0 5px;
-  padding-left: 10px;
 }
 
 /***************************
