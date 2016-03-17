@@ -1,7 +1,7 @@
 <!DOCTYPE html>
  <html>
  <head>
- 	<title>MyHobbyMyCollection</title>
+ 	<title>Collect-Snap</title>
  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
  	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300|Raleway" rel="stylesheet" type="text/css">
  	<link href="<?php echo BASE_URL; ?>css/bootstrap.min.css" rel="stylesheet" media="screen">
@@ -9,7 +9,7 @@
  	<link href="<?php echo BASE_URL; ?>css/tooltipster.css"rel="stylesheet" type="text/css">
  	<link href="<?php echo BASE_URL; ?>css/my-styles.css" rel="stylesheet" media="screen">
  </head>
- <body class="browse-page">
+ <body class="home-page">
  	<nav class="navbar navbar-inverse navbar-fixed-top">
  		<div class="container-fluid">
  			<div class="navbar-header">
@@ -18,7 +18,7 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	 			<a class="navbar-brand text-muted" href="#">My Hobby My Collection</a>
+	 			<a class="navbar-brand text-muted" href="<?php echo BASE_URL; ?>home/">Collect-Snap</a>
  			</div>
  			<div class="collapse navbar-collapse">
 	 			<ul class="nav navbar-nav navbar-right">

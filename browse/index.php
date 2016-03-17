@@ -29,6 +29,7 @@ if (isset($_REQUEST['action'])) {
 	    <h2 class="panel-title" id="name">Browse Collections or Search and Get Inspired!!!</h2>
 		</div>
 	  <div class="panel-body">
+	  	<div class="form-group" id="form-space">
 		  <form class="form-inline" method="POST">
 		  	<label id="gal" for="gallery">Select Gallery:</label>
 		    <?php
@@ -48,11 +49,14 @@ if (isset($_REQUEST['action'])) {
 		    <input type="hidden" name="action" value="old-select">
 		    <input type="submit" class="btn btn-primary btn-md" name="submit" value="Select">
 		  </form>
+		  </div>
+		  <div class="form-group" id="form-space">
 		  <form class="form-inline" method="POST">
 		  	<label for="search">Search for Specifics:</label>
         <input type="text" name="search" class="search" placeholder="Search">
 		    <input type="submit" class="btn btn-primary btn-md" name="submit" value="Search">
 		  </form>
+			</div>
 		</div>
 	</div>
   <div class="modal fade modal" id="imagemodal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -106,11 +110,6 @@ if (isset($_REQUEST['action'])) {
 		    		  ' class="glyphicon glyphicon-thumbs-up"></span>' . ' Like
 		    		  <span id="liked_' . $get['id'] . '_likes">' . $get['likes'] . '</span>
 		    		  </a>' .
-		          /*
-		          '<a href="#" class="view-img pull-right"><span  data-id=' . $get['id'] . 
-		          ' class="glyphicon glyphicon-eye-open"></span>' . ' View
-		    		  <span id="viewed_' . $get['id'] . '_views">' . $get['views'] . '</span></a>' .
-	            */
   		  		'</a>' .	
   				'</div>';
     			$i++;

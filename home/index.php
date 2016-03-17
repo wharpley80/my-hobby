@@ -4,6 +4,7 @@ session_start();
 $thisPage = "home";
 require_once('../inc/config.php');
 require_once(ROOT_PATH . 'inc/database.php');
+
 // Creates a new username.
 if (isset($_POST['signup'])) {
   $username = trim($_POST['username']);
@@ -136,6 +137,19 @@ require_once(ROOT_PATH . 'inc/header.php');
 			</ol>
 			<div class="carousel-inner">
 				<div class="item active">
+					<h1>What do you Collect?</h1>
+		 			<p class="lead">Antiques, Coins, Comics, Figurines, Memorabilia, Toys...
+		 			</p>
+		      <p class="btn-group">
+		      	<?php if (!(isset($_SESSION['login']) && !empty($_SESSION['login']))) { ?>
+				     	  <a class="btn btn-success btn-sm" data-toggle="modal" href="#signIn">Sign In</a>
+				    		<a class="btn btn-info btn-sm" data-toggle="modal"  href="#getStarted">Start Collection</a>
+						<?php }	else { ?>
+								<a class="btn btn-danger btn-sm" href="<?php echo BASE_URL; ?>index.php">Log Out</a>
+						<?php } ?>
+		      </p>
+				</div>
+				<div class="item">
 					<h1>What's your Hobby?</h1>
 		 			<p class="lead">Painting, Sewing, Wood Work, Traveling, Photography...
 		 			</p>
@@ -149,19 +163,6 @@ require_once(ROOT_PATH . 'inc/header.php');
 							<a class="btn btn-danger btn-sm" href="<?php echo BASE_URL; ?>index.php">Log Out &amp Save</a>
 						</p>
 					<?php } ?>   
-				</div>
-				<div class="item">
-					<h1>What do you Collect?</h1>
-		 			<p class="lead">Antiques, Coins, Comics, Figurines, Memorabilia, Toys...
-		 			</p>
-		      <p class="btn-group">
-		      	<?php if (!(isset($_SESSION['login']) && !empty($_SESSION['login']))) { ?>
-				     	  <a class="btn btn-success btn-sm" data-toggle="modal" href="#signIn">Sign In</a>
-				    		<a class="btn btn-info btn-sm" data-toggle="modal"  href="#getStarted">Start Collection</a>
-						<?php }	else { ?>
-								<a class="btn btn-danger btn-sm" href="<?php echo BASE_URL; ?>index.php">Log Out</a>
-						<?php } ?>
-		      </p>
 				</div>
 			</div>
     </div>
@@ -217,29 +218,31 @@ require_once(ROOT_PATH . 'inc/header.php');
 			</div>
 		</div>
 	</div>
-  <div class="container">
-	 	<div class="row">
-	 		<div class="col-sm-4">
-	 			<b class="glyphicon glyphicon-th"></b>
-	 			<h2>Create Collection</h2>
-			 	<p>
-			 		Sign Up and start creating a Collection of your favorite Hobbies. From Paintings or Sculptures to Action Figures or Memorabilia. It's a fun way to share something that's special to you with others.
-			 	</p>
-	    </div>
-	    <div class="col-sm-4">
-	    	<b class="glyphicon glyphicon-camera"></b>
-	    	<h2>Upload Photos</h2>
-			 	<p>
-			 		Take a picture of each item in your Collection. Then Upload the Photo and give it a name and brief description.
-			 	</p>
-	 		</div>
-	 		<div class="col-sm-4">
-	 			<b class="glyphicon glyphicon-search"></b>
-	 			<h2>Search Collections</h2>
-			 	<p>
-			 		Browse other Collections and admire somebody else's Hobby.  
-			 	</p>
-	 		</div>
-	 	</div>
-	</div>
+	<div class="browse-page">
+	  <div class="container">
+		 	<div class="row">
+		 		<div class="col-sm-4">
+		 			<b class="glyphicon glyphicon-th"></b>
+		 			<h2>Create Collection</h2>
+				 	<p>
+				 		Sign Up and start creating a Collection of your favorite Hobbies. From Paintings or Sculptures to Action Figures or Memorabilia. It's a fun way to share something that's special to you with others.
+				 	</p>
+		    </div>
+		    <div class="col-sm-4">
+		    	<b class="glyphicon glyphicon-camera"></b>
+		    	<h2>Upload Photos</h2>
+				 	<p>
+				 		Take a picture of each item in your Collection. Then Upload the Photo and give it a name and brief description.
+				 	</p>
+		 		</div>
+		 		<div class="col-sm-4">
+		 			<b class="glyphicon glyphicon-search"></b>
+		 			<h2>Search Collections</h2>
+				 	<p>
+				 		Browse other Collections and admire somebody else's Hobby.  
+				 	</p>
+		 		</div>
+		 	</div>
+		</div>
+ 
 <?php require_once(ROOT_PATH . 'inc/footer.php'); ?>

@@ -65,6 +65,24 @@ if (isset($_POST['rename'])) {
 		}
   } 
 }
+/*
+// Renames a Image Name.
+if (isset($_POST['change-name'])) {
+  $new_name = trim($_POST['change-name']);
+
+  if (!empty($new_name)) {  
+		try {
+			$sql = $db->prepare('UPDATE image_collection SET image_name = ? WHERE id = ?');
+			$sql->bindParam(1,$new_name);
+			$sql->bindParam(2,$userid);
+			$sql->execute();
+		} catch (Exception $e) {
+			echo 'Data was not submitted to the database successfully.';
+			exit;
+		}
+  } 
+}
+*/
 // Uploads Images to Database
 if  (isset($_POST['sumit']) && isset($_FILES['image'])) {
     $file_temp = $_FILES['image']['tmp_name'];
@@ -112,6 +130,7 @@ if  (isset($_POST['sumit']) && isset($_FILES['image'])) {
 		}
 	}
 }
+
 if (isset($_REQUEST['action'])) {
 	$action = $_REQUEST['action'];
 	
@@ -187,7 +206,7 @@ $prev = "Select";
 					'<h1 class="gallery-name">' . htmlspecialchars($prev) . '</span>' . ' ' . '</h1>' . 
 				'</div>';
 	?>
-  <form class="form-inline" id="upload-form" method="POST" enctype="multipart/form-data">
+	<form class="form-inline" id="upload-form" method="POST" enctype="multipart/form-data">
   	<div>
 	  	<label for="gallery">Select Gallery</label>
 	    <?php
@@ -203,7 +222,7 @@ $prev = "Select";
 	                <?php echo htmlspecialchars($col['gallery']); ?></option>
 	      <?php } ?>
 	    </select>
-	    <input type="hidden" name="action" value="now-select">
+	    <input type="hidden" name="action" value="new-select">
 	    <input type="submit" class="btn btn-primary btn-md" name="submit" value="Select">
   	</div>
   	<div>
@@ -217,7 +236,6 @@ $prev = "Select";
 					  	<h4 class="modal-title">Select image to upload</h4>
 						</div>
 						<div class="modal-body">
-							
 							<div class="form-group" id="form-space">
 								<input type="file" name="image" class="image">
 					  	</div>
@@ -231,13 +249,13 @@ $prev = "Select";
 					  	</div>
 					  	<input type="hidden" name="action" value="old-select">
 					    <input type="submit" class="btn btn-primary btn-md" id="preview" name="sumit" value="Upload">
-					    <!--
+					    
 							<div class="progress">
 							  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
 							    <span class="sr-only">0% Complete</span>
 							  </div>
 							</div>
-							-->
+							
 					  </div>
 					</div>
 				</div>
@@ -277,11 +295,13 @@ $prev = "Select";
 				<form class="edit-name-form" method="POST">
 				  <div class="form-group">
 				  	<input type="text" class="form-control-sm" name="new-name" id="new-name" placeholder="New Name">
+				  	<input type="submit" name="change-name" class="btn btn-primary" id="change-name" value="Change">
 				  </div>
 				</div> 				  
 			  <div class="modal-footer">
-			  	<input type="submit" name="change-name" id="change-name" class="btn btn-primary" value="Change" data-dismiss="modal">
+			  	
 			  </form>
+			  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
@@ -324,6 +344,9 @@ $prev = "Select";
 			    echo 
 			    '<div class="col-xs-6 col-md-3" id="item-row"><span data-id=' . $get['id'] . '></span>' . 
 				  	'<h3><span id="edited_' . $get['id'] . '_name">' . htmlspecialchars($get['image_name']) .  '</span></span>' . '</h3>' .
+				    /*
+				    '<a href="#edit-name" data-toggle="modal">Edit Name<span data-id=' . $get['id'] . ' class="glyphicon glyphicon-edit"></span>' .
+				    '</a>' .*/
 				    '<a href="#" id="name" class="thumbnail" data-toggle="modal"><span data-id=' . $get['id'] . '></span>' .
 				    	'<img class="show-img"  src="data:image;base64,' . $get['image'] . '" id="imageresource' . $get['id'] . '">'  . 
 					    '<p><span id="edited_' . $get['id'] . '_description">' . htmlspecialchars($get['description']) . '</span></p>' .

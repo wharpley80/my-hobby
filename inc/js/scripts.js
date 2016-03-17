@@ -210,7 +210,8 @@ $(function() {
         $('.sr-only').html(percentComplete+ '%');
       },
       success:function(){
-        window.location.href = '../collection/';
+       // window.location.href = '../collection/';
+       window.location.reload(true);
       }
     });
     $(".progress").hide();
@@ -282,13 +283,16 @@ $(function() {
       data: {
         id: id
       },
+
       success: function(data) {
         $('#title-name').text(data);
       }
+
     });
     // Edit Image Name
     $('#change-name').on('click', function(event) {
       event.preventDefault();
+
       var name = $('#new-name').val(); 
 
       function edit_name(id,name) {
@@ -299,9 +303,11 @@ $(function() {
             id: id,
             name: name
           },
+
           success: function(data) {
             $('#title-name').text(data);
             $('#edited_' + id + '_name').text(data);
+            location.reload();
           }
         });
       }
@@ -341,6 +347,7 @@ $(function() {
           success: function(data) {
             $('#modal-description').text(data);
             $('#edited_' + id + '_description').text(data);
+            location.reload();
           }
         });
       }

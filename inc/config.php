@@ -17,8 +17,8 @@ if (LOCALHOST) {
 	define("ROOT_PATH", $_SERVER["DOCUMENT_ROOT"] . "/");
 	
 	define("DB_HOST", "localhost");
-	define("DB_NAME", "my_hobby");
+	define("DB_NAME", "collect_snap");
 	define("DB_PORT", "3306"); 
-	define("DB_USER", "wharpley1980");
+	define("DB_USER", "billy1980");
 	define("DB_PASS", "wotco712");
 }
